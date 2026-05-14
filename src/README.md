@@ -631,6 +631,8 @@ Supported identity types:
 
 # DOCS
 
+https://supabase.com/docs/guides/auth/managing-user-data
+
 https://supabase.com/docs/guides/auth/server-side/creating-a-client
 
 https://supabase.com/docs/guides/auth/passwords
