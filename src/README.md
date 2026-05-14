@@ -480,22 +480,15 @@ Example:
 
 ```
 
-Common Tailwind patterns:
+## Common Tailwind Patterns
 
 | Class | Meaning |
-
 |---|---|
-
 | `flex` | Enable flexbox |
-
 | `p-4` | Padding |
-
 | `m-4` | Margin |
-
 | `text-center` | Center text |
-
 | `bg-blue-500` | Background color |
-
 | `rounded-xl` | Rounded corners |
 
 ---
@@ -541,6 +534,108 @@ src/
 ```
 
 ---
+
+# User Identity
+
+[Supabase User Identity](https://supabase.com/docs/guides/auth/identities)
+
+The user identity object
+
+The user identity object contains the following attributes:
+
+| Attribute | Type | Description |
+|---|---|---|
+| `provider_id` | `string` | The provider id returned by the provider. If the provider is an OAuth provider, the id refers to the user's account with the OAuth provider. If the provider is email or phone, the id is the user's id from the `auth.users` table. |
+| `user_id` | `string` | The user's id that the identity is linked to. |
+| `identity_data` | `object` | The identity metadata. For OAuth and SAML identities, this contains information about the user from the provider. |
+| `id` | `string` | The unique id of the identity. |
+| `provider` | `string` | The provider name. |
+| `email` | `string` | The email is a generated column that references the optional `email` property in the `identity_data`. |
+| `created_at` | `string` | The timestamp that the identity was created. |
+| `last_sign_in_at` | `string` | The timestamp that the identity was last used to sign in. |
+| `updated_at` | `string` | The timestamp that the identity was last updated. |
+
+# The User Object
+
+The user object stores all the information related to a user in your application.
+
+The user object can be retrieved using one of these methods:
+
+```ts
+
+supabase.auth.getUser()
+
+```
+
+Retrieve a user object as an admin using:
+
+```ts
+
+supabase.auth.admin.getUserById()
+
+```
+
+---
+
+# Authentication Methods
+
+A user can sign in with one of the following methods:
+
+- Password-based method (with email or phone)
+
+- Passwordless method (with email or phone)
+
+- OAuth
+
+- SAML SSO
+
+---
+
+# Identities
+
+An identity describes the authentication method that a user can use to sign in.
+
+A user can have multiple identities.
+
+Supported identity types:
+
+- Email
+
+- Phone
+
+- OAuth
+
+- SAML
+
+---
+
+# User Object Attributes
+
+| Attribute | Type | Description |
+|---|---|---|
+| `id` | `string` | The unique id of the identity of the user. |
+| `aud` | `string` | The audience claim. |
+| `role` | `string` | The role claim used by Postgres to perform Row Level Security (RLS) checks. |
+| `email` | `string` | The user's email address. |
+| `email_confirmed_at` | `string` | The timestamp that the user's email was confirmed. If `null`, it means that the user's email is not confirmed. |
+| `phone` | `string` | The user's phone number. |
+| `phone_confirmed_at` | `string` | The timestamp that the user's phone was confirmed. If `null`, it means that the user's phone is not confirmed. |
+| `confirmed_at` | `string` | The timestamp that either the user's email or phone was confirmed. If `null`, it means that the user does not have a confirmed email address and phone number. |
+| `last_sign_in_at` | `string` | The timestamp that the user last signed in. |
+| `app_metadata` | `object` | The `provider` attribute indicates the first provider that the user used to sign up with. The `providers` attribute indicates the list of providers that the user can use to login with. |
+| `user_metadata` | `object` | Defaults to the first provider's identity data but can contain additional custom user metadata if specified. Refer to User Identity for more information about the identity object. Don't rely on the order of information in this field. Do not use it in security sensitive context (such as in RLS policies or authorization logic), as this value is editable by the user without any checks. |
+| `identities` | `UserIdentity[]` | Contains an object array of identities linked to the user. |
+| `created_at` | `string` | The timestamp that the user was created. |
+| `updated_at` | `string` | The timestamp that the user was last updated. |
+| `is_anonymous` | `boolean` | Is `true` if the user is an anonymous user. |
+
+# DOCS
+
+https://supabase.com/docs/guides/auth/server-side/creating-a-client
+
+https://supabase.com/docs/guides/auth/passwords
+
+https://supabase.com/docs/guides/auth/identities
 
 # Summary
 
