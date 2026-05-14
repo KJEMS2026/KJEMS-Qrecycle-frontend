@@ -639,6 +639,10 @@ https://supabase.com/docs/guides/auth/passwords
 
 https://supabase.com/docs/guides/auth/identities
 
+[Supabase Storage YT Video](https://www.youtube.com/watch?v=ch2UGHMreB0)
+
+[Supabase Auth YT Video](https://www.youtube.com/watch?v=v6UvgfSIjQ0)
+
 # Summary
 
 Key things to remember:
