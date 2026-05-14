@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import {
   useMap,
 } from "@vis.gl/react-google-maps";
@@ -11,16 +9,7 @@ import { Button } from "@/components/ui/button";
 import { IconLocationPin } from "@tabler/icons-react"
 
 
-type LatLng = {
-  lat: number;
-  lng: number;
-};
-
-export default function LocationButton({
-  setUserPosition,
-}: {
-  setUserPosition: (pos: LatLng) => void;
-}) {
+export default function LocationButton({ setUserPosition }) {
   const map = useMap();
 
   const handleLocation = () => {

@@ -1,17 +1,12 @@
 'use client'
 
 import { CheckCircle, File, Loader2, Upload, X } from 'lucide-react'
-import { createContext, useCallback, useContext, type PropsWithChildren } from 'react'
+import { createContext, useCallback, useContext } from 'react'
 
 import { cn } from '@/lib/utils'
-import { type UseSupabaseUploadReturn } from '@/hooks/use-supabase-upload'
 import { Button } from '@/components/ui/button'
 
-export const formatBytes = (
-  bytes: number,
-  decimals = 2,
-  size?: 'bytes' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB'
-) => {
+export const formatBytes = (bytes, decimals = 2, size) => {
   const k = 1000
   const dm = decimals < 0 ? 0 : decimals
   const sizes = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
@@ -21,13 +16,7 @@ export const formatBytes = (
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
 }
 
-type DropzoneContextType = Omit<UseSupabaseUploadReturn, 'getRootProps' | 'getInputProps'>
-
-const DropzoneContext = createContext<DropzoneContextType | undefined>(undefined)
-
-type DropzoneProps = UseSupabaseUploadReturn & {
-  className?: string
-}
+const DropzoneContext = createContext(undefined)
 
 const Dropzone = ({
   className,
@@ -35,7 +24,7 @@ const Dropzone = ({
   getRootProps,
   getInputProps,
   ...restProps
-}: PropsWithChildren<DropzoneProps>) => {
+}) => {
   const isSuccess = restProps.isSuccess
   const isActive = restProps.isDragActive
   const isInvalid =
@@ -62,7 +51,7 @@ const Dropzone = ({
     </DropzoneContext.Provider>
   )
 }
-const DropzoneContent = ({ className }: { className?: string }) => {
+const DropzoneContent = ({ className }) => {
   const {
     files,
     setFiles,
@@ -78,7 +67,7 @@ const DropzoneContent = ({ className }: { className?: string }) => {
   const exceedMaxFiles = files.length > maxFiles
 
   const handleRemoveFile = useCallback(
-    (fileName: string) => {
+    (fileName) => {
       setFiles(files.filter((file) => file.name !== fileName))
     },
     [files, setFiles]
@@ -182,7 +171,7 @@ const DropzoneContent = ({ className }: { className?: string }) => {
   )
 }
 
-const DropzoneEmptyState = ({ className }: { className?: string }) => {
+const DropzoneEmptyState = ({ className }) => {
   const { maxFiles, maxFileSize, inputRef, isSuccess } = useDropzoneContext()
 
   if (isSuccess) {

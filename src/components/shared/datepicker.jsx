@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/popover"
 
 export function DatePicker() {
-  const [date, setDate] = React.useState<Date>()
+  const [date, setDate] = React.useState()
 
   return (
     <Field className="mx-auto w-44">

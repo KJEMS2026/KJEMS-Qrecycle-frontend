@@ -15,11 +15,6 @@ import { Button } from "@/components/ui/button";
 import { IconLocationPin } from "@tabler/icons-react"
 
 
-type LatLng = {
-  lat: number;
-  lng: number;
-};
-
 export default function Maps() {
   const defaultPosition = {
     lat: 55.67594,
@@ -28,7 +23,7 @@ export default function Maps() {
 
   const [open, setOpen] = useState(false);
 
-  const [userPosition, setUserPosition] = useState<LatLng | null>(null);
+  const [userPosition, setUserPosition] = useState(null);
 
   return (
     <APIProvider

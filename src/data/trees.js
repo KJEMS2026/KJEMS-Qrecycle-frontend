@@ -1,15 +1,6 @@
 // Data source: https://open.toronto.ca/dataset/street-tree-data/
 
-type RawTree = [string, number, number];
-
-type Tree = {
-  key: string;
-  name: string;
-  lat: number;
-  lng: number;
-};
-
-const trees: RawTree[] = [
+const trees = [
   ["Ash, green", 55.67594, 12.56553],
   ["Birch, white", 55.68000, 12.57000],
   ["Maple, Manitoba", 55.67000, 12.56000],
@@ -33,7 +24,7 @@ const trees: RawTree[] = [
   ["Maple, Manitoba", 55.67594, 12.42]
 ];
 
-const formatted: Tree[] = trees.map(([name, lat, lng]) => ({
+const formatted = trees.map(([name, lat, lng]) => ({
   name,
   lat,
   lng,

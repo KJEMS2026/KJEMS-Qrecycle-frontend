@@ -7,7 +7,6 @@ import {
   AdvancedMarker,
 } from "@vis.gl/react-google-maps";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
-import type { Marker } from "@googlemaps/markerclusterer";
 import { useEffect, useState, useRef } from "react";
 import trees from "../../data/trees";
 // [{ name: "Oak, English", lat: 43.64, lng: -79.41, key: "ABCD" }]
@@ -28,13 +27,10 @@ export default function Intro() {
   );
 }
 
-type Point = google.maps.LatLngLiteral & { key: string };
-type Props = { points: Point[] };
-
-const Markers = ({ points }: Props) => {
+const Markers = ({ points }) => {
   const map = useMap();
-  const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
-  const clusterer = useRef<MarkerClusterer | null>(null);
+  const [markers, setMarkers] = useState({});
+  const clusterer = useRef(null);
 
   useEffect(() => {
     if (!map) return;
@@ -48,7 +44,7 @@ const Markers = ({ points }: Props) => {
     clusterer.current?.addMarkers(Object.values(markers));
   }, [markers]);
 
-  const setMarkerRef = (marker: Marker | null, key: string) => {
+  const setMarkerRef = (marker, key) => {
     if (marker && markers[key]) return;
     if (!marker && !markers[key]) return;
 
