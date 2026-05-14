@@ -7,21 +7,19 @@ import {
   ItemTitle,
 } from "@/components/ui/item"
 
-// tilføj antal ventende stop og tid til klar i ItemDescription
-// kald til backend for at hente ruteinformation og opdatere ItemDescription dynamisk
+export default function ItemLink({ title, href, description, status } = {} ) {
+    return( 
+    <div className="flex max-w-md flex-col gap-4">
+      <Item variant="outline" render={<a href={href}><ItemContent>
+          <ItemTitle> 
+            <Map className="size-4" /> 
+            {title}
+          </ItemTitle>
 
-export function ItemLink() {
-  return (
-    <div className="flex w-full max-w-md flex-col gap-4">
-      <Item variant="outline" render={<a href="#"><ItemContent>
-          <Map className="size-4" />
-          <ItemTitle>Se dagens rute</ItemTitle>
           <ItemDescription>
-            7 ventende stop · klar nu
+            { status ? `${description} · ${status}` : description }
           </ItemDescription>
-        </ItemContent><ItemActions>
-          <ChevronRightIcon className="size-4" />
-        </ItemActions></a>} />
+        </ItemContent></a>} />
     </div>
-  )
-}
+      )
+  } 

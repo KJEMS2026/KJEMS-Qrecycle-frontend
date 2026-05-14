@@ -1,5 +1,5 @@
 "use client";
-
+import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { useState } from "react";
 
 import {
@@ -26,16 +26,14 @@ export default function Maps() {
   const [userPosition, setUserPosition] = useState(null);
 
   return (
+
+
+
     <APIProvider
       apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}
     >
-      <div
-        style={{
-          width: "100%",
-          height: "100vh",
-          position: "relative",
-        }}
-      >
+     <LocationButton onLocationRetrieved={(position) => setUserPosition(position)} />
+
         <Map
           defaultCenter={defaultPosition}
           defaultZoom={10}
@@ -80,8 +78,8 @@ export default function Maps() {
           )}
         </Map>
 
-        <LocationButton setUserPosition={setUserPosition} />
-      </div>
     </APIProvider>
+
+
   );
 }

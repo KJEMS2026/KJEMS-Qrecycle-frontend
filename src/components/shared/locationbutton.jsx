@@ -41,12 +41,6 @@ export default function LocationButton({ setUserPosition }) {
   return (
     <Button
       onClick={handleLocation}
-      style={{
-        position: "absolute",
-        top: 16,
-        left: 16,
-        zIndex: 1,
-      }}
     >
       <IconLocationPin data-icon="inline-start" stroke={2} />
     </Button>
