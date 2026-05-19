@@ -1,3 +1,3 @@
-import {showLoginForm} from "./login.js";
+import {roleCheck, showLoginForm} from "./login.js";
 
 showLoginForm()

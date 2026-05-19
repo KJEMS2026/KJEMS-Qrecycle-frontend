@@ -23,16 +23,22 @@ export function showLoginForm() {
             document.getElementById('fejl').textContent = 'Forkert login'
             return
         }
+
+        roleCheck()
     })
 }
 
-export async function sessionCheck() {
+export async function roleCheck() {
+
     const { data: { session } } = await supabase.auth.getSession()
+
 
     if (!session) {
         showLoginForm()
         return
     }
+
+
 
     const { data: user } = await supabase
         .from('user')
@@ -40,11 +46,19 @@ export async function sessionCheck() {
         .eq('user_id', session.user.id)
         .single()
 
+    console.log('session.user.id:', session.user.id)
+    console.log('user:', user)
+    console.log('error:', error)
+
     const role = user?.user_role
 
-    if (role === 'admin') showLoginForm()
-    if (role === 'driver') showLoginForm()
-    if (role === 'company') showLoginForm()
+    console.log('role:', role)
 
+
+    if (role === 'admin') adminView()
+    if (role === 'driver') driverView()
+    if (role === 'company') companyView()
 }
+
+
 
