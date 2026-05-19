@@ -27,11 +27,11 @@ export function showLoginForm() {
             return
         }
 
-        roleCheck()
+        login()
     })
 }
 
-export async function roleCheck() {
+export async function login() {
     const { data: { session } } = await supabase.auth.getSession()
 
     if (!session) {
