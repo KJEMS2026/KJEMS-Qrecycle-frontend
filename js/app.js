@@ -1,3 +1,3 @@
-import {login} from "./login.js";
+import {login} from "./auth.js";
 
 login()
