@@ -1,17 +1,17 @@
-import { supabase } from './supabase.js'
-import { driverView } from './driver.js'
-import { companyView } from './company.js'
-import { adminView } from './admin.js'
+import {supabase} from './supabase.js'
+import {driverView} from './driver.js'
+import {companyView} from './company.js'
+import {adminView} from './admin.js'
 
 export async function login() {
-    const { data: { session } } = await supabase.auth.getSession()
+    const {data: {session}} = await supabase.auth.getSession()
 
     if (!session) {
         showLoginForm()
         return
     }
 
-    const { data: user } = await supabase
+    const {data: user} = await supabase
         .from('user')
         .select('user_role')
         .eq('user_id', session.user.id)
@@ -26,12 +26,28 @@ export async function login() {
 
 function showLoginForm() {
     document.querySelector('.content').innerHTML = `
-    <form id="loginForm">
-    <input type="email" id="email" placeholder="email">
-    <input type="password" id="password" placeholder="password">
-    <button type="submit">Log ind</button>
+    <div class="login-wrapper">
+        <div class="login-brand">
+            <img src="docs/image/logo.png" alt="Qrecycle-logo">
+        </div>
+        <div class="login-form-panel">
+            <div class="login-form-inner">
+                <h1>Velkommen tilbage</h1>
+                <form id="loginForm">
+    <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" id="email" placeholder="email">
+    </div>
+    <div class="form-group">
+        <label>Adgangskode</label>
+        <input type="password" id="password" placeholder="password">
+    </div>
+    <button type="submit" class="btn-login">Log ind</button>
     <p id="fejl"></p>
-    </form> 
+</form>
+    </div>
+    </div>
+    </div>
     `
 
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
