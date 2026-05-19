@@ -14,7 +14,7 @@ export async function login() {
     const {data: user} = await supabase
         .from('user')
         .select('user_role')
-        .eq('user_id', session.user.id)
+        .eq('id', session.user.id)
         .single()
 
     const role = user?.user_role
