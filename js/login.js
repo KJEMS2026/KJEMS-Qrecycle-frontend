@@ -1,4 +1,7 @@
 import { supabase } from './supabase.js'
+import { driverView } from './driver.js'
+import { companyView } from './company.js'
+import { adminView } from './admin.js'
 
 export function showLoginForm() {
 
@@ -29,16 +32,12 @@ export function showLoginForm() {
 }
 
 export async function roleCheck() {
-
     const { data: { session } } = await supabase.auth.getSession()
-
 
     if (!session) {
         showLoginForm()
         return
     }
-
-
 
     const { data: user } = await supabase
         .from('user')
@@ -46,19 +45,9 @@ export async function roleCheck() {
         .eq('user_id', session.user.id)
         .single()
 
-    console.log('session.user.id:', session.user.id)
-    console.log('user:', user)
-    console.log('error:', error)
-
     const role = user?.user_role
-
-    console.log('role:', role)
-
 
     if (role === 'admin') adminView()
     if (role === 'driver') driverView()
     if (role === 'company') companyView()
 }
-
-
-
