@@ -45,7 +45,7 @@ export async function pickupRequestView() {
     document.getElementById('logout').addEventListener('click', logout);
 }
 
-export function totalBagsToCollect(){
+function totalBagsToCollect(){
     let total = 0;
     for (let pickupRequest of activePickupRequests){
         total += pickupRequest.bagsToBeCollected;
