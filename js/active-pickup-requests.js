@@ -1,34 +1,46 @@
 import { getActivePickupRequests } from "./api.js";
-import {logout} from "./auth.js";
+import { logout } from "./auth.js";
+import { renderAdminLayout } from "./admin-sidebar.js";
 
 let activePickupRequests = [];
 
 export async function pickupRequestView() {
-    activePickupRequests = await getActivePickupRequests()
-    console.log(activePickupRequests);
+    activePickupRequests = await getActivePickupRequests();
 
-    document.querySelector('.content').innerHTML = `
-    <p>admin</p>
-    <button id="logout">Log ud</button>
-    <table>
-            <thead>
-                <tr>
-                    <th>Virksomhed</th>
-                    <th>Dato oprettet</th>
-                    <th>Poser til afhentning</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${activePickupRequests.map(req => `
+    renderAdminLayout(`
+        <div class="page-header">
+            <div>
+                <h1>Anmodninger</h1>
+            </div>
+            <button class="btn-primary">+ Opret på vegne af virksomhed</button>
+        </div>
+        <div class="table-card">
+            <table>
+                <thead>
                     <tr>
-                        <td>${req.companyName}</td>
-                        <td>${new Date(req.createdAt).toLocaleDateString('da-DK')}</td>
-                        <td>${req.bagsToBeCollected}</td>
+                        <th>Virksomhed</th>
+                        <th>Oprettet</th>
+                        <th>Poser til afhentning</th>
+                        <th>Handlinger</th>
                     </tr>
-                `).join('')}
-            </tbody>
-        </table>
-    `
+                </thead>
+                <tbody>
+                    ${activePickupRequests.map(req => `
+                        <tr>
+                            <td>${req.companyName}</td>
+                            <td>${new Date(req.createdAt).toLocaleDateString('da-DK')}</td>
+                            <td>${req.bagsToBeCollected}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="delete-btn">Slet</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `, 'anmodninger');
 
-    document.getElementById('logout').addEventListener('click', logout)
+    document.getElementById('logout').addEventListener('click', logout);
 }
