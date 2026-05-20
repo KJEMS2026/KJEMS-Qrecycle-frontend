@@ -1,6 +1,6 @@
 import { logout } from "./auth.js";
 
-export function renderAdminLayout(contentHTML, activeNav = '') {
+export function renderAdminLayout(contentHTML, activeNav = '', totalBagsToBeCollected = 0) {
     document.querySelector('.content').innerHTML = `
         <div class="admin-layout">
             <aside class="sidebar">
@@ -9,7 +9,7 @@ export function renderAdminLayout(contentHTML, activeNav = '') {
                     <div class="sidebar-logo-text">Qrecycle<span></span></div>
                 </div>
                 <nav class="sidebar-nav">
-                    <a class="${activeNav === 'active-pickup-requests' ? 'active' : ''}" id="nav-pickupRequests">Anmodninger</a>
+                    <a class="${activeNav === 'active-pickup-requests' ? 'active' : ''}" id="nav-pickupRequests">Anmodninger <span class="badge">${totalBagsToBeCollected}</span></a>
                     <a class="${activeNav === 'users' ? 'active' : ''}" id="nav-users">Brugere</a>
                     <a class="${activeNav === 'companies' ? 'active' : ''}" id="nav-companies">Virksomheder</a>
                     <a class="${activeNav === 'stats' ? 'active' : ''}" id="nav-stats">Statistik</a>
@@ -25,5 +25,5 @@ export function renderAdminLayout(contentHTML, activeNav = '') {
         </div>
     `;
 
-    document.getElementById('logout-btn')?.addEventListener('click', logout);
+    document.getElementById('logout')?.addEventListener('click', logout);
 }

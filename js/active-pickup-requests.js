@@ -40,7 +40,15 @@ export async function pickupRequestView() {
                 </tbody>
             </table>
         </div>
-    `, 'active-pickup-requests');
+    `, 'active-pickup-requests', totalBagsToCollect());
 
     document.getElementById('logout').addEventListener('click', logout);
+}
+
+export function totalBagsToCollect(){
+    let total = 0;
+    for (let pickupRequest of activePickupRequests){
+        total += pickupRequest.bagsToBeCollected;
+    }
+    return total;
 }
