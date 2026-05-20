@@ -71,3 +71,8 @@ export async function logout() {
     await supabase.auth.signOut()
     showLoginForm()
 }
+
+export async function getSessionUserId() {
+    const { data: { session } } = await supabase.auth.getSession()
+    return session.user.id
+}
