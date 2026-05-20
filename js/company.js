@@ -13,7 +13,9 @@ function showDashboard() {
 
 function showCreateForm() {
     renderContent(createFormHTML())
+    // Header tilbage-pil: navigationsknap øverst på siden
     document.getElementById('btn-back').addEventListener('click', showDashboard)
+    // Annullér-link: afbryder formularen og vender tilbage til dashboard
     document.getElementById('btn-cancel').addEventListener('click', showDashboard)
     document.getElementById('btn-plus').addEventListener('click', incrementBagCount)
     document.getElementById('btn-minus').addEventListener('click', decrementBagCount)
