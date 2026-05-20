@@ -9,11 +9,11 @@ export function renderAdminLayout(contentHTML, activeNav = '') {
                     <div class="sidebar-logo-text">Qrecycle<span></span></div>
                 </div>
                 <nav class="sidebar-nav">
-                    <a class="${activeNav === 'anmodninger' ? 'active' : ''}" id="nav-anmodninger">Anmodninger</a>
-                    <a class="${activeNav === 'brugere' ? 'active' : ''}" id="nav-brugere">Brugere</a>
-                    <a class="${activeNav === 'virksomheder' ? 'active' : ''}" id="nav-virksomheder">Virksomheder</a>
-                    <a class="${activeNav === 'statistik' ? 'active' : ''}" id="nav-statistik">Statistik</a>
-                    <a class="${activeNav === 'omkostninger' ? 'active' : ''}" id="nav-omkostninger">Omkostninger</a>
+                    <a class="${activeNav === 'active-pickup-requests' ? 'active' : ''}" id="nav-pickupRequests">Anmodninger</a>
+                    <a class="${activeNav === 'users' ? 'active' : ''}" id="nav-users">Brugere</a>
+                    <a class="${activeNav === 'companies' ? 'active' : ''}" id="nav-companies">Virksomheder</a>
+                    <a class="${activeNav === 'stats' ? 'active' : ''}" id="nav-stats">Statistik</a>
+                    <a class="${activeNav === 'expenses' ? 'active' : ''}" id="nav-expenses">Omkostninger</a>
                 </nav>
                  <button id="logout" class="btn-logout">Log ud</button>
             </aside>

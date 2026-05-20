@@ -40,7 +40,7 @@ export async function pickupRequestView() {
                 </tbody>
             </table>
         </div>
-    `, 'anmodninger');
+    `, 'active-pickup-requests');
 
     document.getElementById('logout').addEventListener('click', logout);
 }
