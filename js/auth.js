@@ -19,9 +19,9 @@ export async function login() {
 
     const role = user?.user_role
 
-    if (role === 'admin') adminView()
-    if (role === 'driver') driverView()
-    if (role === 'company') companyView()
+    if (role === 'ADMIN') adminView()
+    if (role === 'DRIVER') driverView()
+    if (role === 'COMPANY') companyView()
 }
 
 function showLoginForm() {
@@ -59,7 +59,7 @@ function showLoginForm() {
         })
 
         if (error) {
-            document.getElementById('fejl').textContent = 'Forkert auth'
+            document.getElementById('fejl').textContent = 'Forkert e-mail eller adgangskode.'
             return
         }
 
