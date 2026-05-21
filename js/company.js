@@ -1,7 +1,10 @@
 import { logout, getSessionUserId } from './auth.js'
-import { sendPickupRequest } from './api.js'
+import {getActivePickupRequests, sendPickupRequest} from './api.js'
 
-export function companyView() {
+let activePickupRequests = [];
+
+export async function companyView() {
+    activePickupRequests = await getActivePickupRequests();
     showDashboard()
 }
 
@@ -60,8 +63,22 @@ function dashboardHTML() {
             <button class="btn-logout-company" id="btn-logout">Log ud</button>
         </header>
         <main class="app-main">
-            <h1 class="page-title">Dine afhentninger</h1>
-            <div id="requests-list"><p class="text-muted">Indlæser...</p></div>
+            <div class="company-table-card">
+            <table>
+                <thead>
+                    <tr>              
+                        <th>Dine anmodninger</th>                         
+                    </tr>
+                </thead>
+                <tbody>
+                    ${activePickupRequests.map(req => `
+                        <tr>
+                            <td>${req.bagsToBeCollected} Poser</td>                           
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
         </main>
         <div class="bottom-bar">
             <button class="btn-bottom" id="btn-opret">+ Opret ny afhentning</button>
