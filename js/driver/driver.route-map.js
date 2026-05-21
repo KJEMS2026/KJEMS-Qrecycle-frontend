@@ -40,8 +40,11 @@ export const driverRouteMap = {
                 const driverLocation = { lat: coords.latitude, lng: coords.longitude }
                 try {
                     const route = await routeApi.computeRoute(stops, driverLocation)
-                    const orderedStops = route.optimizedIntermediateWaypointIndex.map(i => stops[i])
-                    const stopPositions = route.legs.slice(0, orderedStops.length).map(l => l.endLocation)
+                    const orderedStops = [
+                        ...route.optimizedIntermediateWaypointIndex.map(i => stops[i]),
+                        stops[stops.length - 1]
+                    ]
+                    const stopPositions = route.legs.map(l => l.endLocation)
 
                     const map = new google.maps.Map(document.getElementById('map'), {
                         mapId: 'DEMO_MAP_ID',
