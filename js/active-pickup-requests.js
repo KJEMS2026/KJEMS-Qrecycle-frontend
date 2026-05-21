@@ -72,11 +72,19 @@ async function pickupRequestForm() {
         
         <div class="pickup-request-form-admin">
             <button type="submit" id="btn-submit" class="btn-submit-request-admin">Opret anmodning</button>
-            <button type="button" class="btn-cancel">Annullér</button>
+            <button type="button" id="btn-cancel" class="btn-cancel">Annullér</button>
         </div>
     </form>
     `
-    document.getElementById('btn-submit').addEventListener('click', sendPickupRequestAdmin)
+    document.getElementById('btn-submit').addEventListener('click', async () => {
+        const bagCount = parseInt(document.getElementById('bags').value)
+        const companyId = document.getElementById('company').value
+        const wasAccepted = await sendPickupRequestAdmin(companyId, bagCount)
+        if (wasAccepted) {
+            await pickupRequestView()
+        }
+    })
+    document.getElementById('btn-cancel').addEventListener('click', pickupRequestView)
 }
 
 function totalBagsToCollect(){
