@@ -29,7 +29,7 @@ function incrementBagCount() {
 
 function decrementBagCount() {
     const bagsInput = document.getElementById('bags')
-    if (parseInt(bagsInput.value) > 0) bagsInput.value = parseInt(bagsInput.value) - 1
+    if (parseInt(bagsInput.value) > 1) bagsInput.value = parseInt(bagsInput.value) - 1
 }
 
 async function submitPickupRequest() {
@@ -81,7 +81,7 @@ function createFormHTML() {
             <div class="form-group">
                 <label>ANTAL POSER (VALGFRIT)</label>
                 <div class="number-input">
-                    <input type="number" id="bags" value="0" min="0">
+                    <input type="number" id="bags" value="1" min="1">
                     <div class="number-controls">
                         <button class="btn-counter" id="btn-plus">+</button>
                         <span class="counter-divider">/</span>
