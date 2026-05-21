@@ -1,10 +1,10 @@
 import { logout, getSessionUserId } from './auth.js'
-import {getActivePickupRequests, sendPickupRequest} from './api.js'
+import {getActivePickupRequestsCompany, sendPickupRequest} from './api.js'
 
 let activePickupRequests = [];
 
 export async function companyView() {
-    activePickupRequests = await getActivePickupRequests();
+    activePickupRequests = await getActivePickupRequestsCompany();
     showDashboard()
 }
 
