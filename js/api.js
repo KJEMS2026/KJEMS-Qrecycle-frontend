@@ -23,3 +23,9 @@ export async function getActivePickupRequestsCompany() {
 
     return response.json();
 }
+
+export async function getCompanies() {
+    const response = await fetch(`${BACKEND_URL}/companies`);
+
+    return response.json();
+}
