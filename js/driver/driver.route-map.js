@@ -26,7 +26,7 @@ export const driverRouteMap = {
                     <div class="route-stops-preview" id="stop-list">
                         <div class="route-calculating">Beregner rute...</div>
                     </div>
-                    <button class="btn-calculate-route" id="btn-start-nav" disabled>Start navigation →</button>
+                    <button class="btn-calculate-route" id="btn-start-nav" disabled>Start rute →</button>
                 </section>
             </div>
         `
