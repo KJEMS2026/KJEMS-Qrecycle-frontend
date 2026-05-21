@@ -23,7 +23,6 @@ function showCreateForm() {
     document.getElementById('btn-plus').addEventListener('click', incrementBagCount)
     document.getElementById('btn-minus').addEventListener('click', decrementBagCount)
     document.getElementById('btn-send').addEventListener('click', submitPickupRequest)
-    document.getElementById('btn-send').addEventListener('click', companyView)
 }
 
 function incrementBagCount() {
