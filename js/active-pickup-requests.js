@@ -2,6 +2,7 @@ import { getActivePickupRequests } from "./api.js";
 import { logout } from "./auth.js";
 import { renderAdminLayout } from "./admin-sidebar.js";
 import { getCompanies } from "./api.js";
+import { sendPickupRequestAdmin } from "./api.js";
 
 let activePickupRequests = [];
 let companies = [];
@@ -70,11 +71,12 @@ async function pickupRequestForm() {
         </div>
         
         <div class="pickup-request-form-admin">
-            <button type="submit" class="btn-submit-request-admin">Opret anmodning</button>
+            <button type="submit" id="btn-submit" class="btn-submit-request-admin">Opret anmodning</button>
             <button type="button" class="btn-cancel">Annullér</button>
         </div>
     </form>
     `
+    document.getElementById('btn-submit').addEventListener('click', sendPickupRequestAdmin)
 }
 
 function totalBagsToCollect(){
