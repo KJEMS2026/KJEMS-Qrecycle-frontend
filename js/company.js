@@ -57,7 +57,7 @@ function dashboardHTML() {
     return `
         <header class="app-header">
             <img src="docs/image/logo.png" alt="Qrecycle" class="app-logo">
-            <button class="btn-logout" id="btn-logout">Log ud</button>
+            <button class="btn-logout-company" id="btn-logout">Log ud</button>
         </header>
         <main class="app-main">
             <h1 class="page-title">Dine afhentninger</h1>
