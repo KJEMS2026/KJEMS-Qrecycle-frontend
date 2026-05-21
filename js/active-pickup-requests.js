@@ -9,11 +9,13 @@ export async function pickupRequestView() {
 
     renderAdminLayout(`
         <div class="page-header">
-            <div>
-                <h1>Anmodninger</h1>
-            </div>
-            <button class="btn-primary">+ Opret på vegne af virksomhed</button>
-        </div>
+    <div>
+        <h1>Anmodninger</h1>
+    </div>
+    <div>
+        <button class="btn-primary">+ Opret på vegne af virksomhed</button>
+    </div>
+</div>
         <div class="table-card">
             <table>
                 <thead>

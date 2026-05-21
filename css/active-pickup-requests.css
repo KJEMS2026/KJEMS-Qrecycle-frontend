@@ -17,6 +17,7 @@
 }
 
 .btn-primary {
+    align-self: flex-start;
     background-color: #1a1a2e;
     color: white;
     border: none;
