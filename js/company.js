@@ -81,7 +81,7 @@ function createFormHTML() {
             <div class="form-group">
                 <label>ANTAL POSER (VALGFRIT)</label>
                 <div class="number-input">
-                    <input type="number" id="bags" value="0" min="0">
+                    <input type="number" id="bags" value="1" min="1">
                     <div class="number-controls">
                         <button class="btn-counter" id="btn-plus">+</button>
                         <span class="counter-divider">/</span>
