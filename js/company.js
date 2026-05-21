@@ -43,7 +43,7 @@ async function submitPickupRequest() {
         const userId = await getSessionUserId()
         const wasAccepted = await sendPickupRequest(userId, bagCount)
         if (wasAccepted) {
-            showDashboard()
+            await companyView()
         } else {
             feedbackEl.textContent = 'Noget gik galt. Prøv igen.'
         }
