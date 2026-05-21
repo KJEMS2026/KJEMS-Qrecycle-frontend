@@ -7,7 +7,6 @@ export const driverActiveRoute = {
     show(orderedStops, legs, driverLocation, callbacks) {
         const stop = orderedStops[0]
         const leg = legs[0]
-        const steps = leg.steps || []
         const distanceKm = (leg.distanceMeters / 1000).toFixed(1)
         const durationMin = Math.round(parseInt(leg.duration) / 60)
 
@@ -19,7 +18,7 @@ export const driverActiveRoute = {
             callbacks.onEnd()
         })
 
-        this.startNavigation(orderedStops, leg, steps, driverLocation, legs, (id) => { watchId = id })
+        this.startNavigation(orderedStops, leg, driverLocation, (id) => { watchId = id })
     },
 
     buildHtml(stop, orderedStops, distanceKm, durationMin) {
@@ -40,12 +39,13 @@ export const driverActiveRoute = {
         `
     },
 
-    async startNavigation(orderedStops, leg, steps, driverLocation, legs, onWatchId) {
+    async startNavigation(orderedStops, leg, driverLocation, onWatchId) {
         let currentPos = driverLocation
         let prevPos = null
+        let steps = leg.steps || []
         let stepIndex = 1
-        let currentPathIndex = 0
         let fullPath = []
+        let currentPathIndex = 0
         let lastRerouteTime = 0
         let isRerouting = false
 
@@ -53,6 +53,8 @@ export const driverActiveRoute = {
             lat: leg.endLocation.latLng.latitude,
             lng: leg.endLocation.latLng.longitude
         }
+
+        const gpsOptions = { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
 
         navigator.geolocation.getCurrentPosition(async ({ coords }) => {
             currentPos = { lat: coords.latitude, lng: coords.longitude }
@@ -90,7 +92,6 @@ export const driverActiveRoute = {
 
             if (steps.length > 1) navUtils.updateNavBanner(steps, stepIndex, currentPos)
 
-            const gpsOptions = { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
             const watchId = navigator.geolocation.watchPosition(({ coords }) => {
                 const newPos = { lat: coords.latitude, lng: coords.longitude }
 
@@ -100,61 +101,48 @@ export const driverActiveRoute = {
                 driverMarker.position = newPos
                 activeMap.panTo(newPos)
 
-                this.trackStep(steps, stepIndex, newPos, (updated) => { stepIndex = updated })
-                this.trimPolyline(routePolyline, fullPath, newPos, currentPathIndex, (updated) => { currentPathIndex = updated })
-                this.rerouteIfNeeded(orderedStops, newPos, prevPos, fullPath, routePolyline, encoding, steps, stepIndex, lastRerouteTime, isRerouting,
-                    (time) => { lastRerouteTime = time },
-                    (val) => { isRerouting = val }
-                )
+                // Trim polyline til aktuel position
+                const { index, distFromRoute } = navUtils.findNearestPathPoint(fullPath, newPos, currentPathIndex)
+                currentPathIndex = index
+                routePolyline.setPath(fullPath.slice(currentPathIndex))
+
+                // Fremryk step og opdater nav-banner
+                if (steps.length > 1 && stepIndex < steps.length) {
+                    const stepPos = {
+                        lat: steps[stepIndex].startLocation.latLng.latitude,
+                        lng: steps[stepIndex].startLocation.latLng.longitude
+                    }
+                    if (geoUtils.distanceMeters(newPos, stepPos) < 30 && stepIndex < steps.length - 1) stepIndex++
+                    navUtils.updateNavBanner(steps, stepIndex, newPos)
+                }
+
+                // Gensøg rute hvis for langt væk
+                const now = Date.now()
+                const hasMoved = !prevPos || geoUtils.distanceMeters(prevPos, newPos) > 10
+                if (distFromRoute > 50 && hasMoved && now - lastRerouteTime > 30000 && !isRerouting) {
+                    isRerouting = true
+                    lastRerouteTime = now
+                    routeApi.computeRoute(orderedStops, newPos).then(newRoute => {
+                        const newLeg = newRoute.legs[0]
+                        fullPath = encoding.decodePath(newLeg.polyline.encodedPolyline)
+                        currentPathIndex = 0
+                        routePolyline.setPath(fullPath)
+
+                        steps = newLeg.steps || []
+                        stepIndex = 1
+                        if (steps.length > 1) navUtils.updateNavBanner(steps, stepIndex, newPos)
+
+                        const kmEl = document.getElementById('eta-km')
+                        const minEl = document.getElementById('eta-min')
+                        if (kmEl) kmEl.textContent = `${(newLeg.distanceMeters / 1000).toFixed(1)} km`
+                        if (minEl) minEl.textContent = `${Math.round(parseInt(newLeg.duration) / 60)} min`
+
+                        isRerouting = false
+                    }).catch(() => { isRerouting = false })
+                }
             }, null, gpsOptions)
 
             onWatchId(watchId)
-        })
-    },
-
-    trackStep(steps, stepIndex, newPos, onUpdate) {
-        if (steps.length <= 1 || stepIndex >= steps.length) return
-        const stepPos = {
-            lat: steps[stepIndex].startLocation.latLng.latitude,
-            lng: steps[stepIndex].startLocation.latLng.longitude
-        }
-        if (geoUtils.distanceMeters(newPos, stepPos) < 30 && stepIndex < steps.length - 1) {
-            onUpdate(stepIndex + 1)
-        }
-        navUtils.updateNavBanner(steps, stepIndex, newPos)
-    },
-
-    trimPolyline(routePolyline, fullPath, newPos, currentPathIndex, onUpdate) {
-        const { index } = navUtils.findNearestPathPoint(fullPath, newPos, currentPathIndex)
-        onUpdate(index)
-        routePolyline.setPath(fullPath.slice(index))
-    },
-
-    rerouteIfNeeded(orderedStops, newPos, prevPos, fullPath, routePolyline, encoding, steps, stepIndex, lastRerouteTime, isRerouting, onTime, onRerouting) {
-        const { distFromRoute } = navUtils.findNearestPathPoint(fullPath, newPos, 0)
-        const now = Date.now()
-        const hasMoved = !prevPos || geoUtils.distanceMeters(prevPos, newPos) > 10
-        if (distFromRoute <= 50 || !hasMoved || now - lastRerouteTime <= 30000 || isRerouting) return
-
-        onRerouting(true)
-        onTime(now)
-
-        routeApi.computeRoute(orderedStops, newPos).then(newRoute => {
-            const newLeg = newRoute.legs[0]
-            const newPath = encoding.decodePath(newLeg.polyline.encodedPolyline)
-            routePolyline.setPath(newPath)
-            Object.assign(fullPath, newPath)
-
-            const kmEl = document.getElementById('eta-km')
-            const minEl = document.getElementById('eta-min')
-            if (kmEl) kmEl.textContent = `${(newLeg.distanceMeters / 1000).toFixed(1)} km`
-            if (minEl) minEl.textContent = `${Math.round(parseInt(newLeg.duration) / 60)} min`
-
-            const newSteps = newLeg.steps || []
-            steps.length = 0
-            steps.push(...newSteps)
-            if (newSteps.length > 1) navUtils.updateNavBanner(newSteps, 1, newPos)
-            onRerouting(false)
-        }).catch(() => onRerouting(false))
+        }, null, gpsOptions)
     }
 }
