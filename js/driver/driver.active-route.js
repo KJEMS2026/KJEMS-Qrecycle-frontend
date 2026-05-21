@@ -26,10 +26,13 @@ export const driverActiveRoute = {
             <div class="active-route-app">
                 <div class="nav-container">
                     <div class="nav-banner" id="nav-banner">
-                        <span class="nav-icon" id="nav-icon">↑</span>
-                        <div class="nav-text">
-                            <span class="nav-dist" id="nav-dist">beregner...</span>
-                            <span class="nav-instruction" id="nav-instruction">Kører mod ${stop.companyName}</span>
+                        <div class="nav-arrow-section">
+                            <span class="nav-dist" id="nav-dist">—</span>
+                            <span class="nav-icon" id="nav-icon">↑</span>
+                        </div>
+                        <div class="nav-text-section">
+                            <span class="nav-maneuver" id="nav-maneuver">Kører mod ${stop.companyName}</span>
+                            <span class="nav-detail" id="nav-detail"></span>
                         </div>
                     </div>
                     <div id="active-map"></div>
