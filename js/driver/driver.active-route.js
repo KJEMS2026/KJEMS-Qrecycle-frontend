@@ -32,7 +32,6 @@ export const driverActiveRoute = {
                             <span class="nav-dist" id="nav-dist">beregner...</span>
                             <span class="nav-instruction" id="nav-instruction">Kører mod ${stop.companyName}</span>
                         </div>
-                        <span class="live-badge">● LIVE</span>
                     </div>
                     <div id="active-map"></div>
                 </div>
@@ -91,6 +90,7 @@ export const driverActiveRoute = {
 
             if (steps.length > 1) navUtils.updateNavBanner(steps, stepIndex, currentPos)
 
+            const gpsOptions = { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
             const watchId = navigator.geolocation.watchPosition(({ coords }) => {
                 const newPos = { lat: coords.latitude, lng: coords.longitude }
 
@@ -106,7 +106,7 @@ export const driverActiveRoute = {
                     (time) => { lastRerouteTime = time },
                     (val) => { isRerouting = val }
                 )
-            })
+            }, null, gpsOptions)
 
             onWatchId(watchId)
         })
