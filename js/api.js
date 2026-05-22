@@ -32,7 +32,6 @@ export async function getActivePickupRequestsCompany() {
 
     return response.json();
 }
-import { BACKEND_URL } from './env.js'
 
 export async function getCompanies() {
     const response = await fetch(`${BACKEND_URL}/companies`);

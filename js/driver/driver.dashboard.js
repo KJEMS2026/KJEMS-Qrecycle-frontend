@@ -1,4 +1,5 @@
 import { geoUtils } from './geo.utils.js'
+import { logout } from '../auth.js'
 
 export const driverDashboard = {
     show(firstName, stops, callbacks) {
@@ -9,9 +10,13 @@ export const driverDashboard = {
     buildHtml(firstName, stops) {
         return `
             <div class="driver-app">
-                <header class="driver-header">
-                    <img src="docs/image/logo.png" alt="Qrecycle">
+                          
+                <header class="app-header">
+                    <img src="docs/image/logo.png" alt="Qrecycle" class="app-logo">
+                    <button class="btn-logout-company" id="btn-logout">Log ud</button>
                 </header>
+                
+                
                 <main class="driver-main">
                     <h1 class="driver-greeting">Goddag, ${firstName}</h1>
                     <p class="driver-date">${geoUtils.formatCurrentDate()}</p>
@@ -35,5 +40,6 @@ export const driverDashboard = {
 
     attachListeners(callbacks) {
         document.getElementById('btn-see-route').addEventListener('click', callbacks.onViewRoute)
+        document.getElementById('btn-logout').addEventListener('click', logout)
     }
 }
