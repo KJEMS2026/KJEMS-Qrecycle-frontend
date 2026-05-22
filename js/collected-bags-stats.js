@@ -1,6 +1,12 @@
 import { renderAdminLayout } from "./admin-sidebar.js";
-import { getStats } from "./api.js"
+import { getStatisticList } from "./api.js";
 
-async function collectedBagsStats (){
+let statisticList = [];
 
+export async function collectedBagsStats (){
+    statisticList = await getStatisticList();
+
+    renderAdminLayout(`
+    
+    `, 'active-pickup-requests');
 }
