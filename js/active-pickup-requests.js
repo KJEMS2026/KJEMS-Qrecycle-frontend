@@ -1,5 +1,4 @@
 import { getActivePickupRequests } from "./api.js";
-import { logout } from "./auth.js";
 import { renderAdminLayout } from "./admin-sidebar.js";
 import { getCompanies } from "./api.js";
 import { sendPickupRequestAdmin } from "./api.js";
@@ -47,7 +46,6 @@ export async function pickupRequestView() {
         </div>
     `, 'active-pickup-requests', totalBagsToCollect());
 
-    document.getElementById('logout').addEventListener('click', logout);
     document.getElementById('create-request-btn').addEventListener('click', pickupRequestForm)
 }
 
