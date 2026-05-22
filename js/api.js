@@ -38,3 +38,9 @@ export async function getCompanies() {
 
     return response.json();
 }
+
+export async function getStats(){
+    const response = await fetch(`${BACKEND_URL}/stats`);
+
+    return response.json();
+}
