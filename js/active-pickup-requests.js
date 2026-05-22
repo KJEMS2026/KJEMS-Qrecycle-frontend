@@ -57,7 +57,7 @@ async function pickupRequestForm() {
     <form>
         <div class="pickup-request-form-admin">
             <label for="company">Virksomheder</label>
-            <select id="company" name="company">
+            <select id="company" name="company" required>
                 <option value="">Vælg virksomhed...</option>
                 ${companies.map(company => `
                 <option value="${company.id}">${company.name}</option>
