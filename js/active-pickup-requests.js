@@ -54,28 +54,31 @@ export async function pickupRequestView() {
 async function pickupRequestForm() {
     companies = await getCompanies();
     document.querySelector('.content').innerHTML = `
-    <form>
-        <div class="pickup-request-form-admin">
-            <label for="company">Virksomheder</label>
-            <select id="company" name="company" required>
-                <option value="">Vælg virksomhed...</option>
-                ${companies.map(company => `
-                <option value="${company.id}">${company.name}</option>
-                `).join('')}
-            </select>
-        </div>
-        
-        <div class="pickup-request-form-admin">
-            <label for="bags">Antal poser</label>
-            <input type="number" id="bags" name="bags" min="1" value="1" required>
-        </div>
-        
-        <div class="pickup-request-form-admin">
-            <button type="button" id="btn-submit" class="btn-submit-request-admin">Opret anmodning</button>
-            <button type="button" id="btn-cancel" class="btn-cancel">Annullér</button>
-        </div>
-    </form>
-    `
+    <div class="pickup-request-form-container">
+        <h2>Opret ny anmodning</h2>
+        <form>
+            <div class="form-field">
+                <label for="company">Vælg virksomhed</label>
+                <select id="company" name="company">
+                    <option value="">Vælg virksomhed...</option>
+                    ${companies.map(company => `
+                        <option value="${company.id}">${company.name}</option>
+                    `).join('')}
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="bags">Vælg antal poser</label>
+                <input type="number" id="bags" name="bags" min="1" value="1" required placeholder="1">
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="btn-cancel" class="btn-cancel">Annullér</button>
+                <button type="button" id="btn-submit" class="btn-primary">Opret anmodning</button>
+            </div>
+        </form>
+    </div>
+    `;
     document.getElementById('btn-submit').addEventListener('click', async () => {
         const bagCount = parseInt(document.getElementById('bags').value)
         const companyId = document.getElementById('company').value
