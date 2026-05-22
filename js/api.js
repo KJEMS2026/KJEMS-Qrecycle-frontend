@@ -45,11 +45,6 @@ export async function getCompanies() {
     return response.json();
 }
 
-export async function getStats(){
-    const response = await fetch(`${BACKEND_URL}/stats`);
-
-    return response.json();
-}
 export async function fetchRouteStops() {
     const response = await fetch(`${BACKEND_URL}/driver/route`)
     if (!response.ok) throw new Error('Kunne ikke hente rute')
