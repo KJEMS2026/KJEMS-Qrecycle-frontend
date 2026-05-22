@@ -9,7 +9,9 @@ export function renderAdminLayout(contentHTML, activeNav = '', totalBagsToBeColl
                     <div class="sidebar-logo-text">Qrecycle<span></span></div>
                 </div>
                 <nav class="sidebar-nav">
-                    <a class="${activeNav === 'active-pickup-requests' ? 'active' : ''}" id="nav-pickupRequests">Anmodninger <span class="badge">${totalBagsToBeCollected}</span></a>
+                    <a class="${activeNav === 'active-pickup-requests' ? 'active' : ''}" id="nav-pickupRequests">
+            Anmodninger <span class="badge" id="bags-badge">0</span>
+        </a>
                     <a class="${activeNav === 'users' ? 'active' : ''}" id="nav-users">Brugere</a>
                     <a class="${activeNav === 'companies' ? 'active' : ''}" id="nav-companies">Virksomheder</a>
                     <a class="${activeNav === 'stats' ? 'active' : ''}" id="nav-stats">Statistik</a>
