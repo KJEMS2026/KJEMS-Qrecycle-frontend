@@ -71,7 +71,7 @@ async function pickupRequestForm() {
         </div>
         
         <div class="pickup-request-form-admin">
-            <button type="submit" id="btn-submit" class="btn-submit-request-admin">Opret anmodning</button>
+            <button type="button" id="btn-submit" class="btn-submit-request-admin">Opret anmodning</button>
             <button type="button" id="btn-cancel" class="btn-cancel">Annullér</button>
         </div>
     </form>
