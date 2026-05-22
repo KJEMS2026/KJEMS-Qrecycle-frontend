@@ -18,7 +18,6 @@ export const driverDashboard = {
                     <button class="driver-card" id="btn-see-route">
                         <div class="driver-card-content">
                             <span>Se dagens rute</span>
-                            <small>${stops.length} ventende stop · klar nu</small>
                         </div>
                         <span class="driver-card-arrow">→</span>
                     </button>

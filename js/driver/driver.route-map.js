@@ -40,8 +40,11 @@ export const driverRouteMap = {
                 const driverLocation = { lat: coords.latitude, lng: coords.longitude }
                 try {
                     const route = await routeApi.computeRoute(stops, driverLocation)
+                    const optimizedIndices = route.optimizedIntermediateWaypointIndex
                     const orderedStops = [
-                        ...route.optimizedIntermediateWaypointIndex.map(i => stops[i]),
+                        ...(optimizedIndices?.length > 0
+                            ? optimizedIndices.map(i => stops[i])
+                            : stops.slice(0, -1)),
                         stops[stops.length - 1]
                     ]
                     const stopPositions = route.legs.map(l => l.endLocation)

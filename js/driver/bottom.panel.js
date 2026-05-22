@@ -1,3 +1,5 @@
+import { pant } from './pant.js'
+
 export const bottomPanel = {
     buildHtml(stop, orderedStops, distanceKm, durationMin) {
         return `
@@ -14,30 +16,39 @@ export const bottomPanel = {
                     </div>
                 </div>
                 <div class="active-divider"></div>
+                ${stop.pickupRequestId ? `
                 <p class="bags-label">Antal poser hentet</p>
                 <div class="bags-controls">
                     <button class="bags-btn" id="btn-minus">−</button>
-                    <span class="bags-count" id="bags-count">0</span>
+                    <span class="bags-count" id="bags-count">1</span>
                     <button class="bags-btn" id="btn-plus">+</button>
                 </div>
                 <button class="btn-mark-collected" id="btn-mark">✓ Marker stop som afhentet</button>
+                ` : ''}
                 <div class="route-secondary-actions">
-                    <button class="btn-secondary" id="btn-expense">+ Omkostning</button>
                     <button class="btn-secondary btn-end-route" id="btn-end">× Afslut rute</button>
                 </div>
             </section>
         `
     },
 
-    setupListeners(bagsCountRef, onEnd) {
-        document.getElementById('btn-minus').addEventListener('click', () => {
-            if (bagsCountRef.value > 0) bagsCountRef.value--
-            document.getElementById('bags-count').textContent = bagsCountRef.value
-        })
-        document.getElementById('btn-plus').addEventListener('click', () => {
-            bagsCountRef.value++
-            document.getElementById('bags-count').textContent = bagsCountRef.value
-        })
+    setupListeners(routeStop, bagsCountRef, onEnd, onMarkCollected) {
+        if (routeStop.pickupRequestId) {
+            document.getElementById('btn-minus').addEventListener('click', () => {
+                if (bagsCountRef.value > 1) bagsCountRef.value--
+                document.getElementById('bags-count').textContent = bagsCountRef.value
+            })
+            document.getElementById('btn-plus').addEventListener('click', () => {
+                bagsCountRef.value++
+                document.getElementById('bags-count').textContent = bagsCountRef.value
+            })
+            document.getElementById('btn-mark').addEventListener('click', async () => {
+                const confirmed = confirm(`Er du sikker på at du vil markere ${routeStop.companyName} som afhentet?`)
+                if (!confirmed) return
+                await pant.registerPickup(routeStop, bagsCountRef.value)
+                onMarkCollected()
+            })
+        }
         document.getElementById('btn-end').addEventListener('click', onEnd)
     }
 }

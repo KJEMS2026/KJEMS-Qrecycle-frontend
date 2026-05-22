@@ -158,11 +158,13 @@
     letter-spacing: 0.6px;
     color: rgba(255, 255, 255, 0.4);
     margin: 0;
+    text-align: center;
 }
 
 .bags-controls {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 24px;
 }
 

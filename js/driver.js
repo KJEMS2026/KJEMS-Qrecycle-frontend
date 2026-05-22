@@ -38,6 +38,7 @@ function showRouteMap(firstName, filteredStops, originalStops) {
 
 function showActiveRoute(orderedStops, legs, driverLocation) {
     driverActiveRoute.show(orderedStops, legs, driverLocation, {
-        onEnd: () => driverView()
+        onEnd: () => driverView(),
+        onMarkCollected: () => driverView()
     })
 }

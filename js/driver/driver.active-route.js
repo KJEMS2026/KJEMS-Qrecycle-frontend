@@ -4,7 +4,7 @@ import { geoUtils } from './geo.utils.js'
 import { navUtils } from './nav.utils.js'
 
 export const driverActiveRoute = {
-    show(orderedStops, legs, driverLocation, callbacks) {
+    async show(orderedStops, legs, driverLocation, callbacks) {
         const stop = orderedStops[0]
         const leg = legs[0]
         const distanceKm = (leg.distanceMeters / 1000).toFixed(1)
@@ -12,13 +12,33 @@ export const driverActiveRoute = {
 
         document.querySelector('.content').innerHTML = this.buildHtml(stop, orderedStops, distanceKm, durationMin)
 
+        const wakeLock = await this.requestWakeLock()
+
+        const release = () => {
+            if (wakeLock) wakeLock.release()
+        }
+
         let watchId = null
-        bottomPanel.setupListeners({ value: 0 }, () => {
+        bottomPanel.setupListeners(stop, { value: 1 }, () => {
             if (watchId) navigator.geolocation.clearWatch(watchId)
+            release()
             callbacks.onEnd()
+        }, () => {
+            if (watchId) navigator.geolocation.clearWatch(watchId)
+            release()
+            callbacks.onMarkCollected()
         })
 
         this.startNavigation(orderedStops, leg, driverLocation, (id) => { watchId = id })
+    },
+
+    async requestWakeLock() {
+        if (!('wakeLock' in navigator)) return null
+        try {
+            return await navigator.wakeLock.request('screen')
+        } catch {
+            return null
+        }
     },
 
     buildHtml(stop, orderedStops, distanceKm, durationMin) {
