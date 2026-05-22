@@ -1,7 +1,10 @@
 import { logout, getSessionUserId } from './auth.js'
-import { sendPickupRequest } from './api.js'
+import {getActivePickupRequestsCompany, sendPickupRequest} from './api.js'
 
-export function companyView() {
+let activePickupRequests = [];
+
+export async function companyView() {
+    activePickupRequests = await getActivePickupRequestsCompany()
     showDashboard()
 }
 
@@ -29,7 +32,7 @@ function incrementBagCount() {
 
 function decrementBagCount() {
     const bagsInput = document.getElementById('bags')
-    if (parseInt(bagsInput.value) > 0) bagsInput.value = parseInt(bagsInput.value) - 1
+    if (parseInt(bagsInput.value) > 1) bagsInput.value = parseInt(bagsInput.value) - 1
 }
 
 async function submitPickupRequest() {
@@ -40,7 +43,7 @@ async function submitPickupRequest() {
         const userId = await getSessionUserId()
         const wasAccepted = await sendPickupRequest(userId, bagCount)
         if (wasAccepted) {
-            showDashboard()
+            await companyView()
         } else {
             feedbackEl.textContent = 'Noget gik galt. Prøv igen.'
         }
@@ -57,11 +60,25 @@ function dashboardHTML() {
     return `
         <header class="app-header">
             <img src="docs/image/logo.png" alt="Qrecycle" class="app-logo">
-            <button class="btn-logout" id="btn-logout">Log ud</button>
+            <button class="btn-logout-company" id="btn-logout">Log ud</button>
         </header>
         <main class="app-main">
-            <h1 class="page-title">Dine afhentninger</h1>
-            <div id="requests-list"><p class="text-muted">Indlæser...</p></div>
+            <div class="company-table-card">
+            <table>
+                <thead>
+                    <tr>              
+                        <th>Dine anmodninger</th>                         
+                    </tr>
+                </thead>
+                <tbody>
+                    ${activePickupRequests.map(req => `
+                        <tr>
+                            <td>${req.bagsToBeCollected} Poser</td>                           
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
         </main>
         <div class="bottom-bar">
             <button class="btn-bottom" id="btn-opret">+ Opret ny afhentning</button>
@@ -81,7 +98,7 @@ function createFormHTML() {
             <div class="form-group">
                 <label>ANTAL POSER (VALGFRIT)</label>
                 <div class="number-input">
-                    <input type="number" id="bags" value="0" min="0">
+                    <input type="number" id="bags" value="1" min="1">
                     <div class="number-controls">
                         <button class="btn-counter" id="btn-plus">+</button>
                         <span class="counter-divider">/</span>
