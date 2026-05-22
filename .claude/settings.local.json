@@ -1,9 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\simon\\\\IdeaProjects\\\\AILolDraftingCheck\" -Recurse -Include \"*.js\", \"*.jsx\", \"*.ts\", \"*.tsx\")",
-      "Bash(Select-Object -ExpandProperty FullName)",
-      "Bash(Sort-Object)"
+      "mcp__claude_ai_Google_Drive__search_files",
+      "mcp__claude_ai_Google_Drive__read_file_content"
     ]
   }
 }

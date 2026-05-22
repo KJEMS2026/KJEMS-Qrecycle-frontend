@@ -1,7 +1,7 @@
 import {supabase} from './supabase.js'
 import {driverView} from './driver.js'
 import {companyView} from './company.js'
-import {adminView} from './admin.js'
+import {pickupRequestView} from './active-pickup-requests.js'
 
 export async function login() {
     const {data: {session}} = await supabase.auth.getSession()
@@ -19,7 +19,7 @@ export async function login() {
 
     const role = user?.user_role
 
-    if (role === 'ADMIN') adminView()
+    if (role === 'ADMIN') pickupRequestView()
     if (role === 'DRIVER') driverView()
     if (role === 'COMPANY') companyView()
 }
@@ -70,4 +70,9 @@ function showLoginForm() {
 export async function logout() {
     await supabase.auth.signOut()
     showLoginForm()
+}
+
+export async function getSessionUserId() {
+    const { data: { session } } = await supabase.auth.getSession()
+    return session.user.id
 }
