@@ -10,7 +10,7 @@ export async function collectedBagsStats (){
     let totalPickups = statisticList.length;
     let totalBags = statisticList.reduce((sum, stat) => sum + stat.bagsCollected, 0);
 
-    renderAdminLayout(`
+    await renderAdminLayout(`
         <div class="stats-page-header">
             <h1>Statistik</h1>
         </div>

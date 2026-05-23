@@ -8,9 +8,7 @@ let companies = [];
 export async function pickupRequestView() {
     let activePickupRequests = await getActivePickupRequests();
 
-    const totalBags = activePickupRequests.reduce((sum, req) => sum + req.bagsToBeCollected, 0);
-
-    renderAdminLayout(`
+    await renderAdminLayout(`
         <div class="page-header">
     <div>
         <h1>Anmodninger</h1>
@@ -46,8 +44,6 @@ export async function pickupRequestView() {
             </table>
         </div>
     `, 'active-pickup-requests');
-
-    document.getElementById('bags-badge').textContent = totalBags;
     document.getElementById('create-request-btn').addEventListener('click', pickupRequestForm)
 }
 

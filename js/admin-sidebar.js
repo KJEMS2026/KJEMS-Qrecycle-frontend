@@ -1,7 +1,9 @@
 import { logout } from "./auth.js";
 import { collectedBagsStats } from "./collected-bags-stats.js";
+import { getActivePickupRequests } from "./api.js";
+import { pickupRequestView } from "./active-pickup-requests.js";
 
-export function renderAdminLayout(contentHTML, activeNav = '') {
+export async function renderAdminLayout(contentHTML, activeNav = '') {
     document.querySelector('.content').innerHTML = `
         <div class="admin-layout">
             <aside class="sidebar">
@@ -28,6 +30,11 @@ export function renderAdminLayout(contentHTML, activeNav = '') {
         </div>
     `;
 
+    const activePickupRequests = await getActivePickupRequests();
+    const totalBags = activePickupRequests.reduce((sum, req) => sum + req.bagsToBeCollected, 0);
+    document.getElementById('bags-badge').textContent = totalBags;
+
     document.getElementById('logout')?.addEventListener('click', logout);
+    document.getElementById('nav-pickupRequests')?.addEventListener('click', pickupRequestView)
     document.getElementById('nav-stats')?.addEventListener('click', collectedBagsStats)
 }
