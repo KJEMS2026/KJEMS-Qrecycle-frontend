@@ -1,6 +1,7 @@
 import { logout } from "./auth.js";
+import { collectedBagsStats } from "./collected-bags-stats.js";
 
-export function renderAdminLayout(contentHTML, activeNav = '', totalBagsToBeCollected = 0) {
+export function renderAdminLayout(contentHTML, activeNav = '') {
     document.querySelector('.content').innerHTML = `
         <div class="admin-layout">
             <aside class="sidebar">
@@ -28,4 +29,5 @@ export function renderAdminLayout(contentHTML, activeNav = '', totalBagsToBeColl
     `;
 
     document.getElementById('logout')?.addEventListener('click', logout);
+    document.getElementById('nav-stats')?.addEventListener('click', collectedBagsStats)
 }
