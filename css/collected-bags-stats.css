@@ -1,0 +1,118 @@
+/* ── Stats page ── */
+
+.stats-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.stats-page-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1f2e;
+    margin: 0;
+}
+
+/* ── Summary badges ── */
+
+.stats-summary {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.summary-badge {
+    background-color: #1a1f2e;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 160px;
+}
+
+.summary-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #a0a8b8;
+    text-transform: uppercase;
+}
+
+.summary-value {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+}
+
+/* ── Table card ── */
+
+.stats-table-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.stats-table thead tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.stats-table th {
+    text-align: left;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    color: #9ca3af;
+    padding: 0.9rem 1.25rem;
+}
+
+.stats-table td {
+    padding: 0.9rem 1.25rem;
+    color: #1a1f2e;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.stats-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.stats-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* ── Diff badge ── */
+
+.diff-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.diff-zero {
+    background-color: #1a1f2e;
+    color: #ffffff;
+}
+
+.diff-negative {
+    background-color: #9ca3af;
+    color: #ffffff;
+}
+.diff-positive {
+    background-color: #4b7c4b;
+    color: #ffffff;
+}
