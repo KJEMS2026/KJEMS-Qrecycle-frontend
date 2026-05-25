@@ -1,5 +1,6 @@
 import { geoUtils } from './geo.utils.js'
 import { logout } from '../auth.js'
+import { expenseForm } from "../expense.js";
 
 export const driverDashboard = {
     show(firstName, stops, callbacks) {
@@ -26,7 +27,7 @@ export const driverDashboard = {
                         </div>
                         <span class="driver-card-arrow">→</span>
                     </button>
-                    <button class="driver-card driver-card-gold">
+                    <button class="driver-card driver-card-gold" id="register-expense">
                         <div class="driver-card-content">
                             <span>Registrér omkostning</span>
                             <small>Parkering, brændstof, andet</small>
@@ -41,5 +42,6 @@ export const driverDashboard = {
     attachListeners(callbacks) {
         document.getElementById('btn-see-route').addEventListener('click', callbacks.onViewRoute)
         document.getElementById('btn-logout').addEventListener('click', logout)
+        document.getElementById('register-expense').addEventListener('click', expenseForm)
     }
 }

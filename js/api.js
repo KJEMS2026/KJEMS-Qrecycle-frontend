@@ -69,3 +69,12 @@ export async function getExpenses(){
 
     return response.json();
 }
+
+export async function saveExpense(driverId, title, description, imageUrl){
+    const response = await fetch(`${BACKEND_URL}/create/expense/${driverId}`,{
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ image : imageUrl, title, description })
+})
+    return response.ok;
+}
