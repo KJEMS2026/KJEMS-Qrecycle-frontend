@@ -34,7 +34,7 @@ export async function renderAdminLayout(contentHTML, activeNav = '') {
     const totalBags = activePickupRequests.reduce((sum, req) => sum + req.bagsToBeCollected, 0);
     document.getElementById('bags-badge').textContent = totalBags;
 
-    document.getElementById('logout')?.addEventListener('click', logout);
-    document.getElementById('nav-pickupRequests')?.addEventListener('click', pickupRequestView)
-    document.getElementById('nav-stats')?.addEventListener('click', collectedBagsStats)
+    document.getElementById('logout').addEventListener('click', logout);
+    document.getElementById('nav-pickupRequests').addEventListener('click', pickupRequestView)
+    document.getElementById('nav-stats').addEventListener('click', collectedBagsStats)
 }
