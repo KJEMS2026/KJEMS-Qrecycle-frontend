@@ -42,29 +42,30 @@ export async function expenseView(){
 
 export async function expenseForm(){
     document.querySelector('.content').innerHTML = `
-    <div class="pickup-request-form-container">
-        <h2>Opret ny omkostning</h2>
-        <form>
-            <div>
-                <label>Titel</label>
-                <input type="text" id="expense-title" required>
-                </div>
-                <div>
-                <label>Beskrivelse</label>
-                <input type="text" id="expense-description" required>
-                </div>
-            
-
-            <div class="form-field">
-                <input type="file" id="expense-image" accept="image/*" capture="environment" required>
-            </div>
-
-            <div class="form-actions">
-                <button type="button" id="btn-cancel" class="btn-cancel">Annullér</button>
-                <button type="button" id="btn-submit" class="btn-primary">Gem omkostning</button>
-            </div>
-        </form>
-    </div>
+    <div class="expense-form-container">
+    <h2>Opret ny omkostning</h2>
+    <form>
+        <div class="expense-form-field">
+            <label for="expense-title">Titel</label>
+            <input type="text" id="expense-title" required>
+        </div>
+        <div class="expense-form-field">
+            <label for="expense-description">Beskrivelse</label>
+            <input type="text" id="expense-description" required>
+        </div>
+        <div class="expense-form-field">
+    <label class="expense-file-label" for="expense-image">
+        Tilføj billede af kvittering
+    </label>
+    <input type="file" id="expense-image" accept="image/*" capture="environment" required>
+    <span class="expense-file-name" id="expense-file-name"></span>
+</div>
+        <div class="expense-form-actions">
+            <button type="button" id="btn-cancel" class="btn-cancel">Annullér</button>
+            <button type="button" id="btn-submit" class="btn-primary">Gem omkostning</button>
+        </div>
+    </form>
+</div>
     `;
     document.getElementById('btn-submit').addEventListener('click', async () => {
         const title = document.getElementById('expense-title').value
@@ -76,6 +77,10 @@ export async function expenseForm(){
             await driverView()
         }
     })
+    document.getElementById('expense-image').addEventListener('change', (e) => {
+        document.getElementById('expense-file-name').textContent = e.target.files[0]?.name ?? '';
+    });
+
     document.getElementById('btn-cancel').addEventListener('click', driverView)
 }
 
