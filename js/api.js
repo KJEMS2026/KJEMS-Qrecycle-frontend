@@ -33,11 +33,18 @@ export async function getActivePickupRequestsCompany() {
     return response.json();
 }
 
+export async function getStatisticList() {
+    const response = await fetch(`${BACKEND_URL}/stats`)
+
+    return response.json();
+}
+
 export async function getCompanies() {
     const response = await fetch(`${BACKEND_URL}/companies`);
 
     return response.json();
 }
+
 export async function fetchRouteStops() {
     const response = await fetch(`${BACKEND_URL}/driver/route`)
     if (!response.ok) throw new Error('Kunne ikke hente rute')
