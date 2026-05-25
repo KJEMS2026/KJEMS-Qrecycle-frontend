@@ -63,3 +63,9 @@ export async function postRegisterPickup(driverId, pickupRequestId, bagsCollecte
     })
     if (!response.ok) throw new Error('Kunne ikke registrere afhentning')
 }
+
+export async function getExpenses(){
+    const response = await fetch(`${BACKEND_URL}/expenses`)
+
+    return response.json();
+}
