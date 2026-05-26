@@ -1,5 +1,5 @@
 import { logout, getSessionUserId } from './auth.js'
-import {getActivePickupRequestsCompany, sendPickupRequest} from './api.js'
+import {deleteActivePickupRequest, getActivePickupRequestsCompany, sendPickupRequest} from './api.js'
 
 let activePickupRequests = [];
 
@@ -12,6 +12,14 @@ function showDashboard() {
     renderContent(dashboardHTML())
     document.getElementById('btn-opret').addEventListener('click', showCreateForm)
     document.getElementById('btn-logout').addEventListener('click', logout)
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const confirmed = confirm('Er du sikker på at du vil slette denne anmodning?')
+            if (!confirmed) return
+            const wasDeleted = await deleteActivePickupRequest(btn.dataset.id)
+            if (wasDeleted) await companyView()
+        })
+    })
 }
 
 function showCreateForm() {
@@ -74,7 +82,11 @@ function dashboardHTML() {
                     ${activePickupRequests.map(req => `
                         <tr>
                             <td>${req.bagsToBeCollected} Poser</td>
-                            <td></td>                           
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="delete-btn" data-id="${req.activePickupRequestId}">Slet</button>
+                                </div>
+                            </td>                           
                         </tr>
                     `).join('')}
                 </tbody>
