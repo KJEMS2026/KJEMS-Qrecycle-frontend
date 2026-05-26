@@ -26,7 +26,10 @@ export const bottomPanel = {
                 <button class="btn-mark-collected" id="btn-mark">✓ Marker stop som afhentet</button>
                 ` : ''}
                 <div class="route-secondary-actions">
-                    <button class="btn-secondary btn-end-route" id="btn-end">× Afslut rute</button>
+                    ${stop.isExtra
+                        ? `<button class="btn-secondary btn-end-stop" id="btn-end">✓ Afslut stop</button>`
+                        : `<button class="btn-secondary btn-end-route" id="btn-end">× Afslut rute</button>`
+                    }
                 </div>
             </section>
         `
@@ -49,6 +52,10 @@ export const bottomPanel = {
                 onMarkCollected()
             })
         }
-        document.getElementById('btn-end').addEventListener('click', onEnd)
+        if (routeStop.isExtra) {
+            document.getElementById('btn-end').addEventListener('click', onMarkCollected)
+        } else {
+            document.getElementById('btn-end').addEventListener('click', onEnd)
+        }
     }
 }
