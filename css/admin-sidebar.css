@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f0e8;
+    color: #1a1a2e;
+}
+
+.admin-layout {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 220px;
+    background-color: #1a1a2e;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.sidebar-logo-icon {
+    width: 36px;
+    height: 36px;
+    background-color: #4caf82;
+    border-radius: 8px;
+}
+
+.sidebar-logo-text {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.sidebar-logo-text span {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    color: #aaa;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+    background-color: #2e2e4e;
+    color: white;
+}
+
+.sidebar-nav a .badge {
+    margin-left: auto;
+    background-color: #FACC15;
+    color: black;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    border-top: 1px solid #2e2e4e;
+    margin-top: auto;
+}
+
+.sidebar-user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #555;
+    background-color: #333;
+}
+
+.sidebar-user-info {
+    font-size: 13px;
+}
+
+.sidebar-user-info span {
+    display: block;
+    color: #aaa;
+    font-size: 11px;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.topbar {
+    padding: 20px 32px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f5f0e8;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.page-content {
+    padding: 32px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.sidebar-logo-img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+.btn-logout {
+    background-color: #FACC15;
+    color: black;
+    border: 1px solid #555;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-logout:hover {
+    background-color: #e6b800;
+}
