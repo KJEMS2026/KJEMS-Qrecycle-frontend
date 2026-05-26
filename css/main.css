@@ -12,11 +12,11 @@
 
 /* ── CSS variabler ── */
 :root {
-    --dark: #1a2332;
+    --dark: #1a1a2e;
     --gold: #f0b429;
     --white: #ffffff;
-    --gray: #f5f5f3;
-    --text: #1a2332;
+    --gray: #f5f0e8;
+    --text: #1a1a2e;
     --text-muted: #6b7280;
     --border: #e5e7eb;
     --error-bg: #fff5f5;
@@ -28,8 +28,8 @@
 /* ── Base ── */
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: var(--gray);
-    color: var(--text);
+    background-color: #f5f0e8;
+    color: #1a1a2e;
     margin: 0;
     padding: 0;
 }
