@@ -55,7 +55,7 @@ export async function expenseForm(){
         </div>
         <div class="expense-form-field">
     <label class="expense-file-label" for="expense-image">
-        Tilføj billede af kvitto
+        Tilføj billede af kvittering
     </label>
     <input type="file" id="expense-image" accept="image/*" required>
     <span class="expense-file-name" id="expense-file-name"></span>
