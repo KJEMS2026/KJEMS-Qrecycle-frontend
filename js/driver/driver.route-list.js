@@ -1,5 +1,6 @@
 import { geoUtils } from './geo.utils.js'
 import { stopItem } from './stop.item.js'
+import { mapsLoader } from './maps.loader.js'
 
 export const driverRouteList = {
     show(firstName, originalStops, callbacks) {
@@ -14,6 +15,7 @@ export const driverRouteList = {
     },
 
     buildHtml(firstName, stops) {
+        const hasExtraStop = stops.some(stop => stop.isExtra)
         return `
             <div class="driver-app">
                 <header class="driver-header">
@@ -26,11 +28,16 @@ export const driverRouteList = {
                     <p class="route-list-title">Med på ruten (${stops.length})</p>
                     <div class="route-stop-list">
                         ${stops.length > 0
-                            ? stops.map((stop, i) => stopItem.buildRouteStopHtml(stop, i)).join('')
+                            ? stops.map((stop, i) => stop.isExtra
+                                ? stopItem.buildExtraStopHtml(stop, i)
+                                : stopItem.buildRouteStopHtml(stop, i)).join('')
                             : '<div class="route-calculating">Ingen ventende stop</div>'
                         }
                     </div>
-                    <button class="btn-add-stop" disabled>+ Tilføj stop</button>
+                    <button class="btn-add-stop ${hasExtraStop ? '' : 'btn-add-stop--active'}" id="btn-add-stop" ${hasExtraStop ? 'disabled' : ''}>+ Tilføj stop</button>
+                    <div id="autocomplete-container" class="autocomplete-container" style="display:none">
+                        <input id="places-input" class="places-input" type="text" placeholder="Søg efter sted eller adresse...">
+                    </div>
                     <button class="btn-calculate-route" id="btn-calculate" ${stops.length === 0 ? 'disabled' : ''}>
                         Beregn rute →
                     </button>
@@ -55,5 +62,55 @@ export const driverRouteList = {
                 callbacks.onCalculate(currentStops)
             )
         }
+
+        document.getElementById('btn-add-stop').addEventListener('click', () =>
+            this.handleAddStop(currentStops, render)
+        )
+    },
+
+    async handleAddStop(currentStops, render) {
+        await mapsLoader.load()
+        document.getElementById('btn-add-stop').style.display = 'none'
+        document.getElementById('autocomplete-container').style.display = 'block'
+
+        const input = document.getElementById('places-input')
+        const userPos = await this.getUserPosition()
+        const autocomplete = this.createAutocomplete(input, userPos)
+
+        autocomplete.addListener('place_changed', () => {
+            const selectedPlace = autocomplete.getPlace()
+            if (!selectedPlace.geometry) return
+            currentStops.unshift({
+                companyName: selectedPlace.name,
+                address: selectedPlace.formatted_address,
+                lat: selectedPlace.geometry.location.lat(),
+                lng: selectedPlace.geometry.location.lng(),
+                isExtra: true
+            })
+            render()
+        })
+
+        input.focus()
+    },
+
+    getUserPosition() {
+        return new Promise(resolve =>
+            navigator.geolocation.getCurrentPosition(
+                ({ coords }) => resolve(new google.maps.LatLng(coords.latitude, coords.longitude)),
+                () => resolve(null),
+                { enableHighAccuracy: true, timeout: 5000 }
+            )
+        )
+    },
+
+    createAutocomplete(input, userPos) {
+        const bounds = userPos
+            ? new google.maps.Circle({ center: userPos, radius: 15000 }).getBounds()
+            : null
+        return new google.maps.places.Autocomplete(input, {
+            fields: ['name', 'formatted_address', 'geometry'],
+            componentRestrictions: { country: 'dk' },
+            ...(bounds && { bounds, strictBounds: false })
+        })
     }
 }

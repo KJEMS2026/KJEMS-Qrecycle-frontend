@@ -6,7 +6,7 @@ export const mapsLoader = {
             if (window.google?.maps) { resolve(); return }
             window.__mapsReady = resolve
             const script = document.createElement('script')
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&loading=async&libraries=geometry,marker&callback=__mapsReady`
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&loading=async&libraries=geometry,marker,places&callback=__mapsReady`
             document.head.appendChild(script)
         })
     }

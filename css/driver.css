@@ -170,20 +170,20 @@
 }
 
 .route-stop-remove {
-    background: none;
+    background: rgba(239, 68, 68, 0.15);
     border: none;
-    color: rgba(255, 255, 255, 0.25);
+    color: #ef4444;
     cursor: pointer;
-    font-size: 16px;
-    padding: 4px 8px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 10px;
     flex-shrink: 0;
-    transition: color 0.15s;
     border-radius: 6px;
+    transition: background 0.15s;
 }
 
 .route-stop-remove:hover {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
+    background: rgba(239, 68, 68, 0.3);
 }
 
 .btn-add-stop {

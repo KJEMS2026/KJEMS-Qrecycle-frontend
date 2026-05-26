@@ -7,7 +7,20 @@ export const stopItem = {
                     <span>${stop.companyName}</span>
                     <small>${stop.address}</small>
                 </div>
-                <button class="route-stop-remove" data-index="${index}">←</button>
+                <button class="route-stop-remove" data-index="${index}">✕</button>
+            </div>
+        `
+    },
+
+    buildExtraStopHtml(stop, index) {
+        return `
+            <div class="route-stop-item route-stop-item--extra">
+                <div class="route-stop-icon route-stop-icon--extra">+</div>
+                <div class="route-stop-info">
+                    <span>${stop.companyName}</span>
+                    <small>${stop.address}</small>
+                </div>
+                <button class="route-stop-remove" data-index="${index}">✕</button>
             </div>
         `
     },

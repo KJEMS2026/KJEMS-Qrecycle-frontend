@@ -32,13 +32,13 @@ function showRouteMap(firstName, filteredStops, originalStops) {
     driverRouteMap.show(firstName, filteredStops, {
         onBack: () => showRouteList(firstName, originalStops),
         onStartNavigation: (orderedStops, legs, driverLocation) =>
-            showActiveRoute(orderedStops, legs, driverLocation)
+            showActiveRoute(firstName, orderedStops, legs, driverLocation)
     })
 }
 
-function showActiveRoute(orderedStops, legs, driverLocation) {
+function showActiveRoute(firstName, orderedStops, legs, driverLocation) {
     driverActiveRoute.show(orderedStops, legs, driverLocation, {
         onEnd: () => driverView(),
-        onMarkCollected: () => driverView()
+        onMarkCollected: () => showRouteList(firstName, orderedStops.slice(1))
     })
 }

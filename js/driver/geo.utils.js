@@ -23,11 +23,11 @@ export const geoUtils = {
     },
 
     formatCurrentDate() {
-        const d = new Date()
-        const weekday = d.toLocaleDateString('da-DK', { weekday: 'long' })
-        const day = d.getDate()
-        const month = d.toLocaleDateString('da-DK', { month: 'long' })
-        const year = d.getFullYear()
+        const today = new Date()
+        const weekday = today.toLocaleDateString('da-DK', { weekday: 'long' })
+        const day = today.getDate()
+        const month = today.toLocaleDateString('da-DK', { month: 'long' })
+        const year = today.getFullYear()
         return `${weekday.charAt(0).toUpperCase() + weekday.slice(1)} · ${day}. ${month} ${year}`
     }
 }

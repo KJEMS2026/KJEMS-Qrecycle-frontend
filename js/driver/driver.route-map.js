@@ -40,14 +40,8 @@ export const driverRouteMap = {
                 const driverLocation = { lat: coords.latitude, lng: coords.longitude }
                 try {
                     const route = await routeApi.computeRoute(stops, driverLocation)
-                    const optimizedIndices = route.optimizedIntermediateWaypointIndex
-                    const orderedStops = [
-                        ...(optimizedIndices?.length > 0
-                            ? optimizedIndices.map(i => stops[i])
-                            : stops.slice(0, -1)),
-                        stops[stops.length - 1]
-                    ]
-                    const stopPositions = route.legs.map(l => l.endLocation)
+                    const orderedStops = this.buildOrderedStops(stops, route)
+                    const stopPositions = route.legs.map(leg => leg.endLocation)
 
                     const map = new google.maps.Map(document.getElementById('map'), {
                         mapId: 'DEMO_MAP_ID',
@@ -59,12 +53,7 @@ export const driverRouteMap = {
 
                     await mapRenderer.drawRoute(map, route.polyline.encodedPolyline, stopPositions)
                     this.renderStopPreview(orderedStops)
-
-                    const btnStart = document.getElementById('btn-start-nav')
-                    btnStart.disabled = false
-                    btnStart.addEventListener('click', () =>
-                        callbacks.onStartNavigation(orderedStops, route.legs, driverLocation)
-                    )
+                    this.enableStartNavigation(orderedStops, route.legs, driverLocation, callbacks)
                 } catch {
                     document.getElementById('stop-list').innerHTML =
                         '<div class="route-calculating">Kunne ikke beregne rute. Tjek at adresserne er korrekte.</div>'
@@ -78,12 +67,30 @@ export const driverRouteMap = {
         )
     },
 
+    buildOrderedStops(stops, route) {
+        const optimizedIndices = route.optimizedIntermediateWaypointIndex
+        return [
+            ...(optimizedIndices?.length > 0
+                ? optimizedIndices.map(i => stops[i])
+                : stops.slice(0, -1)),
+            stops[stops.length - 1]
+        ]
+    },
+
+    enableStartNavigation(orderedStops, legs, driverLocation, callbacks) {
+        const btnStart = document.getElementById('btn-start-nav')
+        btnStart.disabled = false
+        btnStart.addEventListener('click', () =>
+            callbacks.onStartNavigation(orderedStops, legs, driverLocation)
+        )
+    },
+
     renderStopPreview(orderedStops) {
-        const visible = orderedStops.slice(0, PREVIEW_COUNT)
+        const visibleStops = orderedStops.slice(0, PREVIEW_COUNT)
         const hiddenCount = orderedStops.length - PREVIEW_COUNT
 
         document.getElementById('stop-list').innerHTML = `
-            ${visible.map((stop, i) => stopItem.buildPreviewStopHtml(stop, i)).join('')}
+            ${visibleStops.map((stop, i) => stopItem.buildPreviewStopHtml(stop, i)).join('')}
             ${hiddenCount > 0 ? `<div class="show-more-stops" id="show-more">↓ ${hiddenCount} stop mere</div>` : ''}
         `
 
