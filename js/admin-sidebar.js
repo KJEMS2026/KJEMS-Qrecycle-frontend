@@ -3,6 +3,7 @@ import { collectedBagsStats } from "./collected-bags-stats.js";
 import { getActivePickupRequests } from "./api.js";
 import { pickupRequestView } from "./active-pickup-requests.js";
 import { expenseView } from "./expense.js"
+import { allUsers } from "./user.js"
 
 export async function renderAdminLayout(contentHTML, activeNav = '') {
     document.querySelector('.content').innerHTML = `
@@ -39,4 +40,5 @@ export async function renderAdminLayout(contentHTML, activeNav = '') {
     document.getElementById('nav-pickupRequests').addEventListener('click', pickupRequestView)
     document.getElementById('nav-stats').addEventListener('click', collectedBagsStats)
     document.getElementById('nav-expenses').addEventListener('click', expenseView)
+    document.getElementById('nav-users').addEventListener('click', allUsers)
 }

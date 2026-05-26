@@ -5,7 +5,6 @@ let statisticList = [];
 
 export async function collectedBagsStats (){
     statisticList = await getStatisticList();
-    console.log(statisticList);
 
     let totalPickups = statisticList.length;
     let totalBags = statisticList.reduce((sum, stat) => sum + stat.bagsCollected, 0);
