@@ -78,3 +78,9 @@ export async function saveExpense(driverId, title, description, imageUrl){
 })
     return response.ok;
 }
+
+export async function getCompaniesAndCompanyUsers() {
+    const response = await fetch(`${BACKEND_URL}/companies-users`)
+
+    return response.json();
+}
