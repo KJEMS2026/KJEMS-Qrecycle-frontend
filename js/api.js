@@ -1,6 +1,6 @@
 import {getSessionUserId} from "./auth.js";
 
-const BACKEND_URL = 'http://localhost:8080'
+const BACKEND_URL = 'https://chip-clay-glacial.ngrok-free.dev'
 
 export async function sendPickupRequest(userId, bagCount) {
     const response = await fetch(`${BACKEND_URL}/pickup-requests/company`, {
