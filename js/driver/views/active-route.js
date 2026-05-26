@@ -1,7 +1,7 @@
-import { routeApi } from './route.api.js'
-import { bottomPanel } from './bottom.panel.js'
-import { geoUtils } from './geo.utils.js'
-import { navUtils } from './nav.utils.js'
+import { routeApi } from '../google-apis/route.api.js'
+import { bottomPanel } from '../components/bottom.panel.js'
+import { geoUtils } from '../utils/geo.utils.js'
+import { navUtils } from '../utils/nav.utils.js'
 
 const GPS_OPTIONS = { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
 const REROUTE_MIN_INTERVAL_MS = 30000

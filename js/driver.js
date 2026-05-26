@@ -1,9 +1,9 @@
 import { supabase } from './supabase.js'
 import { fetchRouteStops } from './api.js'
-import { driverDashboard } from './driver/driver.dashboard.js'
-import { driverRouteList } from './driver/driver.route-list.js'
-import { driverRouteMap } from './driver/driver.route-map.js'
-import { driverActiveRoute } from './driver/driver.active-route.js'
+import { driverDashboard } from './driver/views/dashboard.js'
+import { driverRouteList } from './driver/views/route-list.js'
+import { driverRouteMap } from './driver/views/route-map.js'
+import { driverActiveRoute } from './driver/views/active-route.js'
 
 export async function driverView() {
     const { data: { session } } = await supabase.auth.getSession()

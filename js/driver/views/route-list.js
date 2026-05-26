@@ -1,6 +1,7 @@
-import { geoUtils } from './geo.utils.js'
-import { stopItem } from './stop.item.js'
-import { mapsLoader } from './maps.loader.js'
+import { geoUtils } from '../utils/geo.utils.js'
+import { stopItem } from '../components/stop.item.js'
+import { mapsLoader } from '../google-apis/maps.loader.js'
+import { placesApi } from '../google-apis/places.api.js'
 
 export const driverRouteList = {
     show(firstName, originalStops, callbacks) {
@@ -74,8 +75,8 @@ export const driverRouteList = {
         document.getElementById('autocomplete-container').style.display = 'block'
 
         const input = document.getElementById('places-input')
-        const userPos = await this.getUserPosition()
-        const autocomplete = this.createAutocomplete(input, userPos)
+        const userPos = await placesApi.getUserPosition()
+        const autocomplete = placesApi.createAutocomplete(input, userPos)
 
         autocomplete.addListener('place_changed', () => {
             const selectedPlace = autocomplete.getPlace()
@@ -91,26 +92,5 @@ export const driverRouteList = {
         })
 
         input.focus()
-    },
-
-    getUserPosition() {
-        return new Promise(resolve =>
-            navigator.geolocation.getCurrentPosition(
-                ({ coords }) => resolve(new google.maps.LatLng(coords.latitude, coords.longitude)),
-                () => resolve(null),
-                { enableHighAccuracy: true, timeout: 5000 }
-            )
-        )
-    },
-
-    createAutocomplete(input, userPos) {
-        const bounds = userPos
-            ? new google.maps.Circle({ center: userPos, radius: 15000 }).getBounds()
-            : null
-        return new google.maps.places.Autocomplete(input, {
-            fields: ['name', 'formatted_address', 'geometry'],
-            componentRestrictions: { country: 'dk' },
-            ...(bounds && { bounds, strictBounds: false })
-        })
     }
 }

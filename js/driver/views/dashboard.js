@@ -1,6 +1,6 @@
-import { geoUtils } from './geo.utils.js'
-import { logout } from '../auth.js'
-import { expenseForm } from "../expense.js";
+import { geoUtils } from '../utils/geo.utils.js'
+import { logout } from '../../auth.js'
+import { expenseForm } from '../../expense.js'
 
 export const driverDashboard = {
     show(firstName, stops, callbacks) {
@@ -11,13 +11,10 @@ export const driverDashboard = {
     buildHtml(firstName, stops) {
         return `
             <div class="driver-app">
-                          
                 <header class="app-header">
                     <img src="docs/image/logo.png" alt="Qrecycle" class="app-logo">
                     <button class="btn-logout-company" id="btn-logout">Log ud</button>
                 </header>
-                
-                
                 <main class="driver-main">
                     <h1 class="driver-greeting">Goddag, ${firstName}</h1>
                     <p class="driver-date">${geoUtils.formatCurrentDate()}</p>

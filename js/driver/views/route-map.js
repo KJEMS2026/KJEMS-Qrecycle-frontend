@@ -1,7 +1,7 @@
-import { mapsLoader } from './maps.loader.js'
-import { routeApi } from './route.api.js'
-import { mapRenderer } from './map.renderer.js'
-import { stopItem } from './stop.item.js'
+import { mapsLoader } from '../google-apis/maps.loader.js'
+import { routeApi } from '../google-apis/route.api.js'
+import { mapRenderer } from '../google-apis/map.renderer.js'
+import { stopItem } from '../components/stop.item.js'
 
 const PREVIEW_COUNT = 3
 
