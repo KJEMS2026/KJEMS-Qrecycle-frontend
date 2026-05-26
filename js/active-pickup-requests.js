@@ -1,16 +1,14 @@
 import { getActivePickupRequests } from "./api.js";
-import { logout } from "./auth.js";
 import { renderAdminLayout } from "./admin-sidebar.js";
 import { getCompanies } from "./api.js";
 import { sendPickupRequestAdmin } from "./api.js";
 
-let activePickupRequests = [];
 let companies = [];
 
 export async function pickupRequestView() {
-    activePickupRequests = await getActivePickupRequests();
+    let activePickupRequests = await getActivePickupRequests();
 
-    renderAdminLayout(`
+    await renderAdminLayout(`
         <div class="page-header">
     <div>
         <h1>Anmodninger</h1>
@@ -45,9 +43,7 @@ export async function pickupRequestView() {
                 </tbody>
             </table>
         </div>
-    `, 'active-pickup-requests', totalBagsToCollect());
-
-    document.getElementById('logout').addEventListener('click', logout);
+    `, 'active-pickup-requests');
     document.getElementById('create-request-btn').addEventListener('click', pickupRequestForm)
 }
 
@@ -88,12 +84,4 @@ async function pickupRequestForm() {
         }
     })
     document.getElementById('btn-cancel').addEventListener('click', pickupRequestView)
-}
-
-function totalBagsToCollect(){
-    let total = 0;
-    for (let pickupRequest of activePickupRequests){
-        total += pickupRequest.bagsToBeCollected;
-    }
-    return total;
 }
