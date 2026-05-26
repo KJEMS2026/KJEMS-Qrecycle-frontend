@@ -90,3 +90,12 @@ export async function getAllUsers(){
 
     return response.json();
 }
+
+export async function saveUser(firstName, lastName, email, phonenumber, role, password){
+    const response = await fetch(`${BACKEND_URL}/saveUser`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName, lastName, email, phonenumber, role, password })
+    })
+    return response.ok;
+}

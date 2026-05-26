@@ -1,5 +1,5 @@
 import { renderAdminLayout } from "./admin-sidebar.js";
-import { getAllUsers } from "./api.js";
+import { getAllUsers, saveUser } from "./api.js";
 
 export async function allUsers(){
     let users = await getAllUsers();
@@ -14,6 +14,9 @@ export async function allUsers(){
     <div class="page-header">
     <div>
         <h1>Brugere</h1>
+    </div>
+    <div>
+        <button id="create-user-btn" class="btn-primary">+ Opret ny bruger</button>
     </div>
 </div>
         <div class="table-card">
@@ -46,5 +49,70 @@ export async function allUsers(){
             </table>
         </div>
     `, users)
+    document.getElementById('create-user-btn').addEventListener('click', createUser)
+}
 
+async function createUser(){
+    let selectedRole = null;
+
+    document.querySelector('.content').innerHTML = `
+    <div class="pickup-request-form-container">
+        <h2>Opret ny bruger</h2>
+        <form>
+        
+            <div class="form-field">
+                <label for="firstName">Fornavn</label>
+                <input type="text" id="firstName">
+                <label for="lastName">Efternavn</label>
+                <input type="text" id="lastName">
+                <label for="email">E-mail</label>
+                <input type="text" id="email">
+                <label for="phonenumber">Telefonnummer</label>
+                <input type="text" id="phonenumber">
+                <label for="password">Adgangskode</label>
+                <input type="text" id="password">
+                
+            </div>
+            <div class="expense-form-field">
+            <label>Rolle</label>
+            <div class="role-selector">
+            <button type="button" class="role-btn" data-role="COMPANY">Virksomhed</button>
+            <button type="button" class="role-btn" data-role="DRIVER">Chauffør</button>
+            <button type="button" class="role-btn" data-role="ADMIN">Admin</button>
+            </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" id="btn-cancel" class="btn-cancel">Annullér</button>
+                <button type="button" id="btn-submit" class="btn-primary">Opret bruger</button>
+            </div>
+        </form>
+    </div>
+    `;
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'))
+            btn.classList.add('active')
+            selectedRole = btn.dataset.role
+        })
+    })
+    document.getElementById('btn-submit').addEventListener('click', async () => {
+        const firstName = document.getElementById('firstName').value
+        const lastName = document.getElementById('lastName').value
+        const email = document.getElementById('email').value
+        const phonenumber = document.getElementById('phonenumber').value
+        const password = document.getElementById('password').value
+
+        if (!firstName || !lastName || !email || !phonenumber || !selectedRole || !password) {
+            alert("Udfyld venligst alle felter")
+            return
+        }
+
+        const wasAccepted = await saveUser(firstName, lastName, email, phonenumber, selectedRole, password)
+        if (wasAccepted) {
+            await allUsers()
+        }
+    })
+
+    document.getElementById('btn-cancel').addEventListener('click', allUsers)
 }
