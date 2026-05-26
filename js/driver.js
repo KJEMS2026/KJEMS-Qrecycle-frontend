@@ -1,9 +1,9 @@
 import { supabase } from './supabase.js'
 import { fetchRouteStops } from './api.js'
-import { driverDashboard } from './driver/driver.dashboard.js'
-import { driverRouteList } from './driver/driver.route-list.js'
-import { driverRouteMap } from './driver/driver.route-map.js'
-import { driverActiveRoute } from './driver/driver.active-route.js'
+import { driverDashboard } from './driver/views/dashboard.js'
+import { driverRouteList } from './driver/views/route-list.js'
+import { driverRouteMap } from './driver/views/route-map.js'
+import { driverActiveRoute } from './driver/views/active-route.js'
 
 export async function driverView() {
     const { data: { session } } = await supabase.auth.getSession()
@@ -17,28 +17,28 @@ export async function driverView() {
 
 function showDashboard(firstName, stops) {
     driverDashboard.show(firstName, stops, {
-        onViewRoute: () => showRouteList(firstName, stops)
+        toRouteList: () => showRouteList(firstName, stops)
     })
 }
 
 function showRouteList(firstName, stops) {
     driverRouteList.show(firstName, stops, {
-        onBack: () => showDashboard(firstName, stops),
-        onCalculate: (filteredStops) => showRouteMap(firstName, filteredStops, stops)
+        toDashboard: () => showDashboard(firstName, stops),
+        toRouteMap: (filteredStops) => showRouteMap(firstName, filteredStops, stops)
     })
 }
 
 function showRouteMap(firstName, filteredStops, originalStops) {
     driverRouteMap.show(firstName, filteredStops, {
-        onBack: () => showRouteList(firstName, originalStops),
-        onStartNavigation: (orderedStops, legs, driverLocation) =>
-            showActiveRoute(orderedStops, legs, driverLocation)
+        toRouteList: () => showRouteList(firstName, originalStops),
+        toActiveRoute: (orderedStops, legs, driverLocation) =>
+            showActiveRoute(firstName, orderedStops, legs, driverLocation)
     })
 }
 
-function showActiveRoute(orderedStops, legs, driverLocation) {
+function showActiveRoute(firstName, orderedStops, legs, driverLocation) {
     driverActiveRoute.show(orderedStops, legs, driverLocation, {
-        onEnd: () => driverView(),
-        onMarkCollected: () => driverView()
+        toDashboard: () => driverView(),
+        toRouteList: () => showRouteList(firstName, orderedStops.slice(1))
     })
 }

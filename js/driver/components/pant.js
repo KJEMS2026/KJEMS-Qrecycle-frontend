@@ -1,5 +1,5 @@
-import { supabase } from '../supabase.js'
-import { postRegisterPickup } from '../api.js'
+import { supabase } from '../../supabase.js'
+import { postRegisterPickup } from '../../api.js'
 
 export const pant = {
     async registerPickup(routeStop, bagsCollected) {

@@ -49,8 +49,8 @@ export const navUtils = {
         const patterns = [' ad ', ' og følg ', ' og tag ']
         const lower = instruction.toLowerCase()
         for (const pattern of patterns) {
-            const idx = lower.indexOf(pattern)
-            if (idx !== -1) return instruction.slice(idx + pattern.length)
+            const matchIndex = lower.indexOf(pattern)
+            if (matchIndex !== -1) return instruction.slice(matchIndex + pattern.length)
         }
         return instruction
     },
