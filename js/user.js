@@ -82,6 +82,13 @@ async function createUser(){
             </div>
             </div>
             
+            <div class="form-field hidden" id="company-fields">
+                <label for="companyName">Virksomhedsnavn</label>
+                <input type="text" id="companyName">
+                <label for="companyAddress">Adresse</label>
+                <input type="text" id="companyAddress" placeholder="Retortvej 38, 2500 København">
+            </div>
+
             <div class="form-actions">
                 <button type="button" id="btn-cancel" class="btn-cancel">Annullér</button>
                 <button type="button" id="btn-submit" class="btn-primary">Opret bruger</button>
@@ -94,6 +101,8 @@ async function createUser(){
             document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'))
             btn.classList.add('active')
             selectedRole = btn.dataset.role
+            const companyFields = document.getElementById('company-fields')
+            companyFields.classList.toggle('hidden', selectedRole !== 'COMPANY')
         })
     })
     document.getElementById('btn-submit').addEventListener('click', async () => {
@@ -108,7 +117,20 @@ async function createUser(){
             return
         }
 
-        const wasAccepted = await saveUser(firstName, lastName, email, phonenumber, selectedRole, password)
+        let companyName = null
+        let companyAddress = null
+
+        if (selectedRole === 'COMPANY') {
+            companyName = document.getElementById('companyName').value
+            companyAddress = document.getElementById('companyAddress').value
+
+            if (!companyName || !companyAddress) {
+                alert("Udfyld venligst virksomhedsnavn og adresse")
+                return
+            }
+        }
+
+        const wasAccepted = await saveUser(firstName, lastName, email, phonenumber, selectedRole, password, companyName, companyAddress)
         if (wasAccepted) {
             await allUsers()
         }
