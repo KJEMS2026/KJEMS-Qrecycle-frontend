@@ -1,11 +1,12 @@
 import {getSessionUserId} from "./auth.js";
 
 const BACKEND_URL = 'https://chip-clay-glacial.ngrok-free.dev'
+const NGROK_HEADER = { 'ngrok-skip-browser-warning': 'true' }
 
 export async function sendPickupRequest(userId, bagCount) {
     const response = await fetch(`${BACKEND_URL}/pickup-requests/company`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...NGROK_HEADER },
         body: JSON.stringify({ userId, bagsToBeCollected: bagCount })
     })
     return response.ok
@@ -14,33 +15,33 @@ export async function sendPickupRequest(userId, bagCount) {
 export async function sendPickupRequestAdmin(companyId, bagCount) {
     const response = await fetch(`${BACKEND_URL}/pickup-requests/admin`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...NGROK_HEADER },
         body: JSON.stringify({ companyId, bagsToBeCollected: bagCount })
     })
     return response.ok
 }
 
 export async function getActivePickupRequests() {
-    const response = await fetch(`${BACKEND_URL}/active-pickup-requests`);
+    const response = await fetch(`${BACKEND_URL}/active-pickup-requests`, { headers: NGROK_HEADER });
 
     return response.json();
 }
 
 export async function getActivePickupRequestsCompany() {
     const userId = await getSessionUserId();
-    const response = await fetch(`${BACKEND_URL}/active-pickup-requests-company/${userId}`);
+    const response = await fetch(`${BACKEND_URL}/active-pickup-requests-company/${userId}`, { headers: NGROK_HEADER });
 
     return response.json();
 }
 
 export async function getStatisticList() {
-    const response = await fetch(`${BACKEND_URL}/stats`)
+    const response = await fetch(`${BACKEND_URL}/stats`, { headers: NGROK_HEADER })
 
     return response.json();
 }
 
 export async function getCompanies() {
-    const response = await fetch(`${BACKEND_URL}/companies`);
+    const response = await fetch(`${BACKEND_URL}/companies`, { headers: NGROK_HEADER });
 
     return response.json();
 }
@@ -54,7 +55,7 @@ export async function fetchRouteStops() {
 export async function postRegisterPickup(driverId, pickupRequestId, bagsCollected) {
     const response = await fetch(`${BACKEND_URL}/update-pickuprequest/${driverId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...NGROK_HEADER },
         body: JSON.stringify({
             pickupRequestId,
             bagsCollected,
@@ -65,7 +66,7 @@ export async function postRegisterPickup(driverId, pickupRequestId, bagsCollecte
 }
 
 export async function getExpenses(){
-    const response = await fetch(`${BACKEND_URL}/expenses`)
+    const response = await fetch(`${BACKEND_URL}/expenses`, { headers: NGROK_HEADER })
 
     return response.json();
 }
@@ -73,7 +74,7 @@ export async function getExpenses(){
 export async function saveExpense(driverId, title, description, imageUrl){
     const response = await fetch(`${BACKEND_URL}/create/expense/${driverId}`,{
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...NGROK_HEADER },
     body: JSON.stringify({ image : imageUrl, title, description })
 })
     return response.ok;
