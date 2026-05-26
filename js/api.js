@@ -51,9 +51,9 @@ export async function fetchRouteStops() {
     return response.json()
 }
 
-export async function postRegisterPickup(driverId, pickupRequestId, bagsCollected) {
+export async function updatePickupRequest(driverId, pickupRequestId, bagsCollected) {
     const response = await fetch(`${BACKEND_URL}/update-pickuprequest/${driverId}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             pickupRequestId,
@@ -83,4 +83,11 @@ export async function getCompaniesAndCompanyUsers() {
     const response = await fetch(`${BACKEND_URL}/companies-users`)
 
     return response.json();
+}
+
+export async function deleteActivePickupRequest(activePickupRequestId) {
+    const response = await fetch(`${BACKEND_URL}/delete/active-pickup-request/${activePickupRequestId}`,{
+        method: 'DELETE'
+    })
+    return response.ok;
 }

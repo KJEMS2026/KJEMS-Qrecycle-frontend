@@ -2,6 +2,7 @@ import { getActivePickupRequests } from "./api.js";
 import { renderAdminLayout } from "./admin-sidebar.js";
 import { getCompanies } from "./api.js";
 import { sendPickupRequestAdmin } from "./api.js";
+import { deleteActivePickupRequest } from "./api.js";
 
 let companies = [];
 
@@ -35,7 +36,7 @@ export async function pickupRequestView() {
                             <td>${req.bagsToBeCollected}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="delete-btn">Slet</button>
+                                    <button class="delete-btn" data-id="${req.id}">Slet</button>
                                 </div>
                             </td>
                         </tr>
@@ -45,6 +46,14 @@ export async function pickupRequestView() {
         </div>
     `, 'active-pickup-requests');
     document.getElementById('create-request-btn').addEventListener('click', pickupRequestForm)
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const confirmed = confirm('Er du sikker på at du vil slette denne anmodning?')
+            if (!confirmed) return
+            const wasDeleted = await deleteActivePickupRequest(btn.dataset.id)
+            if (wasDeleted) await pickupRequestView()
+        })
+    })
 }
 
 async function pickupRequestForm() {

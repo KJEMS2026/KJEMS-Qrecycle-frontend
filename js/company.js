@@ -73,7 +73,8 @@ function dashboardHTML() {
                 <tbody>
                     ${activePickupRequests.map(req => `
                         <tr>
-                            <td>${req.bagsToBeCollected} Poser</td>                           
+                            <td>${req.bagsToBeCollected} Poser</td>
+                            <td></td>                           
                         </tr>
                     `).join('')}
                 </tbody>
