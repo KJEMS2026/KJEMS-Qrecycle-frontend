@@ -1,0 +1,783 @@
+/* ============================================================
+   ROUTE.CSS — Alt der relaterer til chaufførflow:
+   dashboard, ruteliste, ruteoversigt, aktiv kørsel, navigation
+   og mobiltilpasninger.
+
+   Afhænger af: main.css (variabler)
+   ============================================================ */
+
+/* ── Chauffør-app wrapper ── */
+.driver-app {
+    background: var(--dark);
+    min-height: 100vh;
+    color: var(--white);
+    max-width: 430px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Header ── */
+.driver-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.driver-header img {
+    height: 28px;
+}
+
+.driver-header-back {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--white);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── C2 — Dashboard ── */
+.driver-main {
+    padding: 8px 20px 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.driver-greeting {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.driver-date {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.driver-card {
+    background: #253347;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border: none;
+    color: var(--white);
+    width: 100%;
+    text-align: left;
+    transition: opacity 0.15s;
+}
+
+.driver-card:hover {
+    opacity: 0.88;
+}
+
+.driver-card-content span {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.driver-card-content small {
+    display: block;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.driver-card-gold {
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+}
+
+.driver-card-gold .driver-card-content small {
+    color: rgba(240, 180, 41, 0.6);
+}
+
+.driver-card-arrow {
+    font-size: 20px;
+    opacity: 0.7;
+}
+
+/* ── C3 — Ruteliste ── */
+.route-list-section {
+    padding: 8px 20px 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.route-list-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0;
+}
+
+.route-stop-list {
+    background: #253347;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.route-stop-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 12px;
+}
+
+.route-stop-item:last-child {
+    border-bottom: none;
+}
+
+/* Ekstra stop tilføjet via søgning */
+.route-stop-item--extra {
+    background: rgba(240, 180, 41, 0.07);
+    border-left: 3px solid var(--gold);
+}
+
+.route-stop-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.route-stop-icon--extra {
+    background: rgba(240, 180, 41, 0.2);
+    color: var(--gold);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.route-stop-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.route-stop-info span {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.route-stop-info small {
+    display: block;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 12px;
+    margin-top: 1px;
+}
+
+.route-stop-remove {
+    background: rgba(239, 68, 68, 0.15);
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 10px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    transition: background 0.15s;
+}
+
+.route-stop-remove:hover {
+    background: rgba(239, 68, 68, 0.3);
+}
+
+/* Tilføj stop-knap */
+.btn-add-stop {
+    border: 2px dashed rgba(255, 255, 255, 0.18);
+    background: transparent;
+    border-radius: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 16px;
+    width: 100%;
+    cursor: not-allowed;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.btn-add-stop--active {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+}
+
+.btn-add-stop--active:active {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Adressesøgning (autocomplete) */
+.autocomplete-container {
+    width: 100%;
+}
+
+.places-input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    background: #253347;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.places-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.places-input:focus {
+    border-color: var(--gold);
+}
+
+/* Startvalg-knapper */
+.start-choice {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.btn-start-option {
+    flex: 1;
+    background: var(--dark);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    color: var(--white);
+    border-radius: 14px;
+    padding: 16px 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+
+.btn-start-option:hover:not(:disabled) {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.btn-start-option:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.btn-start-option-alt {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--dark);
+}
+
+.btn-start-option-alt:hover:not(:disabled) {
+    opacity: 0.88;
+    color: var(--dark);
+    border-color: var(--gold);
+}
+
+/* Beregn/start-knapper */
+.btn-calculate-route {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 14px;
+    padding: 18px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: auto;
+    transition: opacity 0.15s;
+}
+
+.btn-calculate-route:hover {
+    opacity: 0.9;
+}
+
+.btn-calculate-route:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ── C4 — Ruteoversigt ── */
+.route-map-section {
+    padding: 8px 20px 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.route-map-subtitle {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 13px;
+    margin: 0;
+}
+
+#map {
+    width: 100%;
+    height: 260px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #253347;
+    flex-shrink: 0;
+}
+
+.route-stops-preview {
+    background: #253347;
+    border-radius: 14px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.route-stop-preview-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 12px;
+}
+
+.route-stop-preview-item:last-child {
+    border-bottom: none;
+}
+
+.route-stop-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.route-calculating {
+    padding: 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+}
+
+.show-more-stops {
+    padding: 12px 16px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 12px;
+    cursor: pointer;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    transition: color 0.15s;
+}
+
+.show-more-stops:hover {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Kortpins */
+.route-map-pin {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ef4444;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.driver-live-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #4285f4;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.btn-start-route {
+    background: var(--dark);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: var(--gold);
+    border-radius: 14px;
+    padding: 18px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+}
+
+.btn-start-route:hover {
+    opacity: 0.85;
+}
+
+.btn-start-route:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ── C5 — Aktiv kørsel ── */
+.active-route-app {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-width: 430px;
+    margin: 0 auto;
+    background: var(--dark);
+    color: var(--white);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.nav-container {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+}
+
+#active-map {
+    width: 100%;
+    height: 100%;
+    background: #253347;
+}
+
+/* Navigations-banner (øverst på kortet) */
+.nav-banner {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    z-index: 10;
+    background: #1a6b52;
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.nav-arrow-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: 52px;
+    gap: 4px;
+}
+
+.nav-icon {
+    font-size: 38px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.nav-arrow-icon {
+    font-size: 22px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.nav-dist {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nav-text-section {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav-maneuver {
+    font-size: 19px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+}
+
+.nav-instruction {
+    font-size: 16px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-destination {
+    flex: 1;
+    font-size: 17px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-detail {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.live-badge {
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+
+/* Bund-panel */
+.active-bottom-panel {
+    flex-shrink: 0;
+    padding: 14px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--dark);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.active-stop-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.active-stop-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0 0 4px;
+    text-transform: uppercase;
+}
+
+.active-stop-name {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 2px;
+}
+
+.active-stop-address {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.active-stop-eta {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.eta-km {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.eta-min {
+    display: block;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 2px;
+}
+
+.active-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Posetæller */
+.bags-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+    text-align: center;
+}
+
+.bags-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.bags-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: var(--white);
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    transition: all 0.15s;
+    line-height: 1;
+}
+
+.bags-btn:hover {
+    border-color: var(--white);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.bags-count {
+    font-size: 30px;
+    font-weight: 700;
+    min-width: 36px;
+    text-align: center;
+}
+
+/* Handlingsknapper */
+.btn-mark-collected {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 14px;
+    padding: 15px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.15s;
+}
+
+.btn-mark-collected:hover {
+    opacity: 0.9;
+}
+
+.route-secondary-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-secondary {
+    flex: 1;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+
+.btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+    color: var(--white);
+}
+
+.btn-end-route {
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+}
+
+.btn-end-route:hover {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.7);
+    color: #ef4444;
+}
+
+/* ── Mobiltilpasninger ── */
+
+/* Ret 100vh på iOS/Android */
+.driver-app {
+    min-height: 100dvh;
+}
+
+.active-route-app {
+    height: 100dvh;
+}
+
+/* Safe area til iPhones med hjemindikator */
+.active-bottom-panel {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+}
+
+.driver-main,
+.route-list-section,
+.route-map-section {
+    padding-bottom: calc(32px + env(safe-area-inset-bottom));
+}
+
+/* Fjern 300ms tap-forsinkelse */
+button {
+    touch-action: manipulation;
+}
+
+/* Minimum 44px touch target på tilbage-knap */
+.driver-header-back {
+    width: 44px;
+    height: 44px;
+}
+
+/* Større touch target på fjern-stop */
+.route-stop-remove {
+    padding: 10px 12px;
+}

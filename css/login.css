@@ -1,29 +1,7 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    --dark: #1a2332;
-    --gold: #f0b429;
-    --white: #ffffff;
-    --gray: #f5f5f3;
-    --text: #1a2332;
-    --text-muted: #6b7280;
-    --border: #e5e7eb;
-    --error-bg: #fff5f5;
-    --error-border: #feb2b2;
-    --error-text: #c53030;
-    --radius: 8px;
-}
-
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: var(--gray);
-    margin: 0;
-    padding: 0;
-}
+/* ============================================================
+   LOGIN.CSS — Login-side
+   Afhænger af: main.css (variabler, reset)
+   ============================================================ */
 
 .login-wrapper {
     display: flex;
