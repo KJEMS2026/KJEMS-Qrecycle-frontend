@@ -24,6 +24,7 @@ export async function allUsers(){
                         <th>E-mail</th>
                         <th>Rolle</th>
                         <th>Tilknyttet virksomhed</th>
+                        <th>Handlinger</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +36,7 @@ export async function allUsers(){
                             <td>${user.company}</td>
                             <td>
                                 <div class="action-buttons">
+                                    <button class="delete-btn">Rediger</button>
                                     <button class="delete-btn">Slet</button>
                                 </div>
                             </td>
