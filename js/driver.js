@@ -17,28 +17,28 @@ export async function driverView() {
 
 function showDashboard(firstName, stops) {
     driverDashboard.show(firstName, stops, {
-        onViewRoute: () => showRouteList(firstName, stops)
+        toRouteList: () => showRouteList(firstName, stops)
     })
 }
 
 function showRouteList(firstName, stops) {
     driverRouteList.show(firstName, stops, {
-        onBack: () => showDashboard(firstName, stops),
-        onCalculate: (filteredStops) => showRouteMap(firstName, filteredStops, stops)
+        toDashboard: () => showDashboard(firstName, stops),
+        toRouteMap: (filteredStops) => showRouteMap(firstName, filteredStops, stops)
     })
 }
 
 function showRouteMap(firstName, filteredStops, originalStops) {
     driverRouteMap.show(firstName, filteredStops, {
-        onBack: () => showRouteList(firstName, originalStops),
-        onStartNavigation: (orderedStops, legs, driverLocation) =>
+        toRouteList: () => showRouteList(firstName, originalStops),
+        toActiveRoute: (orderedStops, legs, driverLocation) =>
             showActiveRoute(firstName, orderedStops, legs, driverLocation)
     })
 }
 
 function showActiveRoute(firstName, orderedStops, legs, driverLocation) {
     driverActiveRoute.show(orderedStops, legs, driverLocation, {
-        onEnd: () => driverView(),
-        onMarkCollected: () => showRouteList(firstName, orderedStops.slice(1))
+        toDashboard: () => driverView(),
+        toRouteList: () => showRouteList(firstName, orderedStops.slice(1))
     })
 }

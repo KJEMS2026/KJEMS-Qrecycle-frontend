@@ -4,12 +4,12 @@ import { mapsLoader } from '../google-apis/maps.loader.js'
 import { placesApi } from '../google-apis/places.api.js'
 
 export const driverRouteList = {
-    show(firstName, originalStops, callbacks) {
+    show(firstName, originalStops, navigation) {
         let currentStops = [...originalStops]
 
         const render = () => {
             document.querySelector('.content').innerHTML = this.buildHtml(firstName, currentStops)
-            this.attachListeners(currentStops, callbacks, render)
+            this.attachListeners(currentStops, navigation, render)
         }
 
         render()
@@ -47,8 +47,8 @@ export const driverRouteList = {
         `
     },
 
-    attachListeners(currentStops, callbacks, render) {
-        document.getElementById('btn-back').addEventListener('click', callbacks.onBack)
+    attachListeners(currentStops, navigation, render) {
+        document.getElementById('btn-back').addEventListener('click', navigation.toDashboard)
 
         document.querySelectorAll('.route-stop-remove').forEach(btn => {
             btn.addEventListener('click', e => {
@@ -60,7 +60,7 @@ export const driverRouteList = {
 
         if (currentStops.length > 0) {
             document.getElementById('btn-calculate').addEventListener('click', () =>
-                callbacks.onCalculate(currentStops)
+                navigation.toRouteMap(currentStops)
             )
         }
 

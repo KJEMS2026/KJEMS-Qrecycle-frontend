@@ -9,7 +9,7 @@ const REROUTE_DISTANCE_THRESHOLD_M = 50
 const STEP_ADVANCE_THRESHOLD_M = 30
 
 export const driverActiveRoute = {
-    async show(orderedStops, legs, driverLocation, callbacks) {
+    async show(orderedStops, legs, driverLocation, navigation) {
         const currentStop = orderedStops[0]
         const firstLeg = legs[0]
         const distanceKm = (firstLeg.distanceMeters / 1000).toFixed(1)
@@ -24,11 +24,11 @@ export const driverActiveRoute = {
         bottomPanel.setupListeners(currentStop, { value: 1 }, () => {
             if (watchId) navigator.geolocation.clearWatch(watchId)
             releaseWakeLock()
-            callbacks.onEnd()
+            navigation.toDashboard()
         }, () => {
             if (watchId) navigator.geolocation.clearWatch(watchId)
             releaseWakeLock()
-            callbacks.onMarkCollected()
+            navigation.toRouteList()
         })
 
         this.startNavigation(orderedStops, firstLeg, driverLocation, (id) => { watchId = id })

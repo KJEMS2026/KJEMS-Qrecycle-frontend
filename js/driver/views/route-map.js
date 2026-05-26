@@ -6,10 +6,10 @@ import { stopItem } from '../components/stop.item.js'
 const PREVIEW_COUNT = 3
 
 export const driverRouteMap = {
-    show(firstName, stops, callbacks) {
+    show(firstName, stops, navigation) {
         document.querySelector('.content').innerHTML = this.buildHtml(stops.length)
-        document.getElementById('btn-back').addEventListener('click', callbacks.onBack)
-        this.loadAndRender(stops, callbacks)
+        document.getElementById('btn-back').addEventListener('click', navigation.toRouteList)
+        this.loadAndRender(stops, navigation)
     },
 
     buildHtml(stopCount) {
@@ -32,7 +32,7 @@ export const driverRouteMap = {
         `
     },
 
-    async loadAndRender(stops, callbacks) {
+    async loadAndRender(stops, navigation) {
         await mapsLoader.load()
 
         navigator.geolocation.getCurrentPosition(
@@ -53,7 +53,7 @@ export const driverRouteMap = {
 
                     await mapRenderer.drawRoute(map, route.polyline.encodedPolyline, stopPositions)
                     this.renderStopPreview(orderedStops)
-                    this.enableStartNavigation(orderedStops, route.legs, driverLocation, callbacks)
+                    this.enableStartNavigation(orderedStops, route.legs, driverLocation, navigation)
                 } catch {
                     document.getElementById('stop-list').innerHTML =
                         '<div class="route-calculating">Kunne ikke beregne rute. Tjek at adresserne er korrekte.</div>'
@@ -77,11 +77,11 @@ export const driverRouteMap = {
         ]
     },
 
-    enableStartNavigation(orderedStops, legs, driverLocation, callbacks) {
+    enableStartNavigation(orderedStops, legs, driverLocation, navigation) {
         const btnStart = document.getElementById('btn-start-nav')
         btnStart.disabled = false
         btnStart.addEventListener('click', () =>
-            callbacks.onStartNavigation(orderedStops, legs, driverLocation)
+            navigation.toActiveRoute(orderedStops, legs, driverLocation)
         )
     },
 

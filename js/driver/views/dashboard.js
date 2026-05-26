@@ -3,9 +3,9 @@ import { logout } from '../../auth.js'
 import { expenseForm } from '../../expense.js'
 
 export const driverDashboard = {
-    show(firstName, stops, callbacks) {
+    show(firstName, stops, navigation) {
         document.querySelector('.content').innerHTML = this.buildHtml(firstName, stops)
-        this.attachListeners(callbacks)
+        this.attachListeners(navigation)
     },
 
     buildHtml(firstName, stops) {
@@ -36,8 +36,8 @@ export const driverDashboard = {
         `
     },
 
-    attachListeners(callbacks) {
-        document.getElementById('btn-see-route').addEventListener('click', callbacks.onViewRoute)
+    attachListeners(navigation) {
+        document.getElementById('btn-see-route').addEventListener('click', navigation.toRouteList)
         document.getElementById('btn-logout').addEventListener('click', logout)
         document.getElementById('register-expense').addEventListener('click', expenseForm)
     }
