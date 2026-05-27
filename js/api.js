@@ -112,3 +112,10 @@ export async function saveUser(firstName, lastName, email, phonenumber, role, pa
     })
     return response.ok;
 }
+export async function deleteUser(userId) {
+    const response = await fetch(`${BACKEND_URL}/users/delete/${userId}`, {
+        method: "DELETE",
+    });
+    return response.json();
+
+}
