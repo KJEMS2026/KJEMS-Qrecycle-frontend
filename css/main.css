@@ -119,6 +119,15 @@ body {
     cursor: pointer;
     white-space: nowrap;
 }
+.update-btn {
+    border: none;
+    background-color: #FACC15;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
 
 /* ── Delte form-styles (admin-sider) ── */
 .form-field {
