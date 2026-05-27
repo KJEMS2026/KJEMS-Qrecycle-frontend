@@ -1,3 +1,9 @@
+/* ============================================================
+   COMPANY.CSS — Virksomhedens afhentningsanmodning-side og brugerroller
+   Afhænger af: main.css (variabler, reset)
+   ============================================================ */
+
+/* ── App-header (company-sider) ── */
 .app-header {
     background: var(--dark);
     padding: 14px 20px;
@@ -7,7 +13,6 @@
     position: sticky;
     top: 0;
     z-index: 10;
-
 }
 
 .app-logo {
@@ -16,7 +21,7 @@
 
 .btn-back {
     background: none;
-    border: 1.5px solid rgba(255,255,255,0.3);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     color: var(--white);
     border-radius: var(--radius);
     width: 36px;
@@ -38,21 +43,18 @@
     cursor: pointer;
 }
 
+/* ── Indhold ── */
 .app-main {
     background: var(--white);
     min-height: calc(100vh - 60px);
     padding: 28px 20px 100px;
 }
 
-.text-muted {
-    color: var(--text-muted);
-    font-size: 14px;
-}
-
 .form-subtitle {
     margin-bottom: 24px;
 }
 
+/* ── Antal-input med tæller ── */
 .number-input {
     display: flex;
     align-items: center;
@@ -94,22 +96,21 @@
     font-size: 18px;
 }
 
-.btn-primary {
+/* ── Primær knap (company-variant — fuld bredde, scoped) ── */
+.app-main .btn-primary {
     width: 100%;
     padding: 16px;
-    background: var(--dark);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius);
     font-size: 16px;
     font-weight: 500;
-    cursor: pointer;
     margin-top: 24px;
+    align-self: unset;
+    white-space: normal;
     transition: opacity 0.15s;
 }
 
-.btn-primary:hover {
+.app-main .btn-primary:hover {
     opacity: 0.88;
+    background-color: var(--dark);
 }
 
 .btn-link {
@@ -125,6 +126,7 @@
     text-align: center;
 }
 
+/* ── Fastgjort bund-bar ── */
 .bottom-bar {
     position: fixed;
     bottom: 0;
@@ -157,4 +159,40 @@
     font-size: 13px;
     margin-top: 12px;
     text-align: center;
+}
+
+/* ── Pickup-formular ── */
+.pickup-request-form-container {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    width: 480px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    margin: 60px auto;
+}
+
+.pickup-request-form-container h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 28px;
+}
+
+/* ── Rollevælger ── */
+.role-selector {
+    display: flex;
+    gap: 10px;
+}
+
+.role-btn {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+}
+
+.role-btn.active {
+    background: #1a1a1a;
+    color: white;
+    border-color: #1a1a1a;
 }

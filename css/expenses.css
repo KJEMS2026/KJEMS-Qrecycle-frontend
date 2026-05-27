@@ -1,3 +1,8 @@
+/* ============================================================
+   EXPENSES.CSS — Udgiftsregistrerings-formular
+   Afhænger af: main.css (variabler, reset, .btn-primary, .btn-cancel)
+   ============================================================ */
+
 .expense-form-container {
     padding: 24px 20px;
     box-sizing: border-box;
@@ -39,6 +44,7 @@
     border-color: #1a1a2e;
 }
 
+/* Filupload skjules — styled label bruges i stedet */
 .expense-form-field input[type="file"] {
     display: none;
 }
@@ -75,20 +81,7 @@
 }
 
 .expense-form-actions .btn-cancel {
-    padding: 10px 18px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    background: white;
-    font-size: 14px;
-    line-height: 1.5;
-    cursor: pointer;
-    color: #1a1a2e;
-    white-space: nowrap;
     align-self: center;
-}
-
-.expense-form-actions .btn-cancel:hover {
-    background-color: #f5f5f5;
 }
 
 .expense-form-actions .btn-primary {
