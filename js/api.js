@@ -5,8 +5,8 @@ const BACKEND_URL = 'http://localhost:8080'
 export async function sendPickupRequest(userId, bagCount) {
     const response = await fetch(`${BACKEND_URL}/pickup-requests/company`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, bagsToBeCollected: bagCount })
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({userId, bagsToBeCollected: bagCount})
     })
     return response.ok
 }
@@ -14,8 +14,8 @@ export async function sendPickupRequest(userId, bagCount) {
 export async function sendPickupRequestAdmin(companyId, bagCount) {
     const response = await fetch(`${BACKEND_URL}/pickup-requests/admin`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ companyId, bagsToBeCollected: bagCount })
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({companyId, bagsToBeCollected: bagCount})
     })
     return response.ok
 }
@@ -54,7 +54,7 @@ export async function fetchRouteStops() {
 export async function updatePickupRequest(driverId, pickupRequestId, bagsCollected) {
     const response = await fetch(`${BACKEND_URL}/update-pickuprequest/${driverId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
             pickupRequestId,
             bagsCollected,
@@ -64,18 +64,18 @@ export async function updatePickupRequest(driverId, pickupRequestId, bagsCollect
     if (!response.ok) throw new Error('Kunne ikke registrere afhentning')
 }
 
-export async function getExpenses(){
+export async function getExpenses() {
     const response = await fetch(`${BACKEND_URL}/expenses`)
 
     return response.json();
 }
 
-export async function saveExpense(driverId, title, description, imageUrl){
-    const response = await fetch(`${BACKEND_URL}/create/expense/${driverId}`,{
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ image : imageUrl, title, description })
-})
+export async function saveExpense(driverId, title, description, imageUrl) {
+    const response = await fetch(`${BACKEND_URL}/create/expense/${driverId}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({image: imageUrl, title, description})
+    })
     return response.ok;
 }
 
@@ -86,29 +86,36 @@ export async function getCompaniesAndCompanyUsers() {
 }
 
 export async function deleteActivePickupRequest(activePickupRequestId) {
-    const response = await fetch(`${BACKEND_URL}/delete/active-pickup-request/${activePickupRequestId}`,{
+    const response = await fetch(`${BACKEND_URL}/delete/active-pickup-request/${activePickupRequestId}`, {
         method: 'DELETE'
     })
     return response.ok;
 }
 
-export async function getAllUsers(){
+export async function getAllUsers() {
     const response = await fetch(`${BACKEND_URL}/users`)
 
     return response.json();
 }
 
-export async function saveUser(firstName, lastName, email, phonenumber, role, password, companyName = null, companyAddress = null){
+export async function saveUser(firstName, lastName, email, phonenumber, role, password, companyName = null, companyAddress = null) {
 
     const requestBody = {firstName, lastName, email, phonenumber, role, password, companyName, companyAddress}
 
-    if(companyName) requestBody.companyName = companyName
+    if (companyName) requestBody.companyName = companyName
     if (companyAddress) requestBody.companyAddress = companyAddress
 
-    const response = await fetch(`${BACKEND_URL}/saveUser`,{
+    const response = await fetch(`${BACKEND_URL}/saveUser`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(requestBody)
     })
     return response.ok;
+
+    export async function deleteUser(userId) {
+        const response = await fetch(`${BACKED_URL}/users/delete/${id}`, {
+            method: "DELETE",
+        });
+        return response.json();
+    }
 }
