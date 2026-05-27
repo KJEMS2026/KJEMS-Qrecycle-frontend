@@ -1,5 +1,5 @@
 import { renderAdminLayout } from "./admin-sidebar.js";
-import { getAllUsers, saveUser } from "./api.js";
+import { getAllUsers, saveUser, deleteUser } from "./api.js";
 
 export async function allUsers(){
     let users = await getAllUsers();
@@ -39,8 +39,8 @@ export async function allUsers(){
                             <td>${user.company}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="delete-btn">Rediger</button>
-                                    <button class="delete-btn">Slet</button>
+                                    <button class="update-btn">Rediger</button>
+                                    <button class="delete-btn" data-id="${user.id}">Slet</button>
                                 </div>
                             </td>
                         </tr>
@@ -50,6 +50,14 @@ export async function allUsers(){
         </div>
     `, users)
     document.getElementById('create-user-btn').addEventListener('click', createUser)
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const userId = button.getAttribute('data-id');
+            deleteUser(userId)
+            allUsers()
+        });
+
+    });
 }
 
 async function createUser(){
