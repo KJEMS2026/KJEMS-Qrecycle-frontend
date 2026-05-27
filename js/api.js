@@ -111,11 +111,12 @@ export async function saveUser(firstName, lastName, email, phonenumber, role, pa
         body: JSON.stringify(requestBody)
     })
     return response.ok;
+}
 
-    export async function deleteUser(userId) {
-        const response = await fetch(`${BACKED_URL}/users/delete/${id}`, {
-            method: "DELETE",
-        });
-        return response.json();
-    }
+export async function deleteUser(userId) {
+    const response = await fetch(`${BACKEND_URL}/users/delete/${userId}`, {
+        method: "DELETE",
+    });
+    return response.json();
+
 }
