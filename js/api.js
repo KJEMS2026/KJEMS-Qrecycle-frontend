@@ -91,3 +91,24 @@ export async function deleteActivePickupRequest(activePickupRequestId) {
     })
     return response.ok;
 }
+
+export async function getAllUsers(){
+    const response = await fetch(`${BACKEND_URL}/users`)
+
+    return response.json();
+}
+
+export async function saveUser(firstName, lastName, email, phonenumber, role, password, companyName = null, companyAddress = null){
+
+    const requestBody = {firstName, lastName, email, phonenumber, role, password, companyName, companyAddress}
+
+    if(companyName) requestBody.companyName = companyName
+    if (companyAddress) requestBody.companyAddress = companyAddress
+
+    const response = await fetch(`${BACKEND_URL}/saveUser`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    })
+    return response.ok;
+}

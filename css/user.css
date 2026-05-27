@@ -1,0 +1,21 @@
+.role-selector {
+    display: flex;
+    gap: 10px;
+}
+
+.role-btn {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+}
+
+.role-btn.active {
+    background: #1a1a1a;
+    color: white;
+    border-color: #1a1a1a;
+}
+.hidden {
+    display: none;
+}
