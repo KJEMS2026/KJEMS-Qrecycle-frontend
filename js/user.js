@@ -1,5 +1,5 @@
-import {renderAdminLayout} from "./admin-sidebar.js";
-import {getAllUsers, saveUser, deleteUser} from "./api.js";
+import { renderAdminLayout } from "./admin-sidebar.js";
+import { getAllUsers, saveUser, deleteUser, getPrefilledUserForEditForm, updateUser } from "./api.js";
 
 export async function allUsers() {
     let users = await getAllUsers();
@@ -39,7 +39,7 @@ export async function allUsers() {
                             <td>${user.company}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="update-btn">Rediger</button>
+                                    <button class="update-btn" data-id="${user.id}">Rediger</button>
                                     <button class="delete-btn" data-id="${user.id}">Slet</button>
                                 </div>
                             </td>
@@ -51,13 +51,21 @@ export async function allUsers() {
     `, users)
     document.getElementById('create-user-btn').addEventListener('click', createUser)
     document.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async() => {
+            const confirmed = confirm("Er du sikker på du vil slette brugeren? Handlingen kan ikke fortrydes.")
+            if (!confirmed) return
             const userId = button.getAttribute('data-id');
-            deleteUser(userId)
-            allUsers()
+            await deleteUser(userId)
+            await allUsers()
         });
 
     });
+    document.querySelectorAll('.update-btn').forEach(button => {
+        button.addEventListener('click', async() => {
+            const userId = button.getAttribute('data-id');
+            await editUser(userId)
+        })
+    })
 }
 
 async function createUser() {
@@ -197,6 +205,76 @@ async function createUser() {
         }
 
         const wasAccepted = await saveUser(firstName, lastName, email, phonenumber, selectedRole, password, companyName, companyAddress)
+        if (wasAccepted) {
+            await allUsers()
+        }
+    })
+
+    document.getElementById('btn-cancel').addEventListener('click', allUsers)
+}
+
+async function editUser(id){
+    const user = await getPrefilledUserForEditForm(id)
+
+    document.querySelector('.content').innerHTML = `
+    <div class="pickup-request-form-container">
+        <h2>Rediger bruger</h2>
+        <form>
+            <div class="form-field">
+                <label for="firstName">Fornavn</label>
+                <input type="text" id="firstName" value="${user.firstName}">
+                <label for="lastName">Efternavn</label>
+                <input type="text" id="lastName" value="${user.lastName}">
+                <label for="email">E-mail</label>
+                <input type="text" id="email" value="${user.email}">
+                <label for="phonenumber">Telefonnummer</label>
+                <input type="text" id="phonenumber" value="${user.phonenumber}">
+                <label for="password">Ny adgangskode</label>
+                <input type="text" id="password" placeholder="Lad være tom for at beholde nuværende">
+            </div>
+
+            ${user.role === 'COMPANY' ? `
+            <div class="form-field">
+                <label for="companyName">Virksomhedsnavn</label>
+                <input type="text" id="companyName" value="${user.companyName}">
+                <label for="companyAddress">Adresse</label>
+                <input type="text" id="companyAddress" value="${user.companyAddress}">
+            </div>` : ''}
+
+            <div class="form-actions">
+                <button type="button" id="btn-cancel" class="btn-cancel">Annullér</button>
+                <button type="button" id="btn-submit" class="btn-primary">Gem ændringer</button>
+            </div>
+        </form>
+    </div>
+    `
+
+    document.getElementById('btn-submit').addEventListener('click', async () => {
+        const firstName = document.getElementById('firstName').value
+        const lastName = document.getElementById('lastName').value
+        const email = document.getElementById('email').value
+        const phonenumber = document.getElementById('phonenumber').value
+        const password = document.getElementById('password').value
+
+        if (!firstName || !lastName || !email || !phonenumber) {
+            alert("Udfyld venligst alle felter")
+            return
+        }
+
+        let companyName = null
+        let companyAddress = null
+
+        if (user.role === 'COMPANY') {
+            companyName = document.getElementById('companyName').value
+            companyAddress = document.getElementById('companyAddress').value
+
+            if (!companyName || !companyAddress) {
+                alert("Udfyld venligst virksomhedsnavn og adresse")
+                return
+            }
+        }
+
+        const wasAccepted = await updateUser(id, firstName, lastName, email, phonenumber, password, companyName, companyAddress)
         if (wasAccepted) {
             await allUsers()
         }
