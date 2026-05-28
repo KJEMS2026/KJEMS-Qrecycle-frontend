@@ -1,7 +1,7 @@
-import { renderAdminLayout } from "./admin-sidebar.js";
-import { getAllUsers, saveUser, deleteUser } from "./api.js";
+import {renderAdminLayout} from "./admin-sidebar.js";
+import {getAllUsers, saveUser, deleteUser} from "./api.js";
 
-export async function allUsers(){
+export async function allUsers() {
     let users = await getAllUsers();
     const roleMap = {
         ADMIN: "Admin",
@@ -60,7 +60,7 @@ export async function allUsers(){
     });
 }
 
-async function createUser(){
+async function createUser() {
     let selectedRole = null;
 
     document.querySelector('.content').innerHTML = `
@@ -78,7 +78,12 @@ async function createUser(){
                 <label for="phonenumber">Telefonnummer</label>
                 <input type="text" id="phonenumber">
                 <label for="password">Adgangskode</label>
-                <input type="text" id="password">
+                <input type="password" id="password">
+                <ul class="password-requirements hidden" id="password-requirements">
+                    <li id="req-upper"> x Mindst ét stort bogstav fister løgsovs </li>
+                    <li id="req-number"> x Mindst ét tal </li>
+                    <li id="req-special"> x Mindst ét specialtegn (!@$%&*&) </li>
+                </ul>
                 
             </div>
             <div class="expense-form-field">
@@ -104,21 +109,74 @@ async function createUser(){
         </form>
     </div>
     `;
+
+    const passwordInput = document.getElementById('password');
+    const requirementsList = document.getElementById('password-requirements');
+
+    const rules = {
+        'req-upper': /[A-Z]/,
+        'req-number': /[0-9]/,
+        'req-special': /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/
+    };
+
+    function validatePassword() {
+        if (selectedRole !== 'ADMIN') return true; // Ingen krav for andre roller
+        return Object.entries(rules).every(([id, regex]) => regex.test(passwordInput.value));
+    }
+
+    passwordInput.addEventListener('input', () => {
+        if (selectedRole !== 'ADMIN') return;
+        let allValid = true;
+        for (const [id, regex] of Object.entries(rules)) {
+            const met = regex.test(passwordInput.value);
+            const el = document.getElementById(id);
+            el.textContent = (met ? '✓ ' : '✗ ') + el.textContent.slice(2);
+            el.style.color = met ? 'green' : 'red';
+            if (!met) allValid = false;
+        }
+        document.getElementById('btn-submit').disabled = !allValid;
+    });
+
+
+    //Uberørt(udover snippet)
     document.querySelectorAll('.role-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'))
             btn.classList.add('active')
             selectedRole = btn.dataset.role
+
+            const isAdmin = selectedRole === 'ADMIN';
+            requirementsList.classList.toggle('hidden', !isAdmin);
+            //isAdmin er defineret?
+            document.getElementById('btn-submit').disabled = isAdmin
+                ? !validatePassword()
+                : false;
+
+            if (!isAdmin) {
+                document.querySelectorAll('.password-requirements li').forEach(li => {
+                    li.textContent = '✗ ' + li.textContent.slice(2);
+                    li.style.color = '';
+                })
+            }
+            //
             const companyFields = document.getElementById('company-fields')
             companyFields.classList.toggle('hidden', selectedRole !== 'COMPANY')
         })
     })
+
     document.getElementById('btn-submit').addEventListener('click', async () => {
+
+        if (selectedRole === 'ADMIN' && !validatePassword()) {
+            alert('Brug venligst en stærkere adgangskode. Koden skal indeholde mindst en smørklat, et specialtegn, et stort bogstav og et tal.')
+            return;
+        }
+
         const firstName = document.getElementById('firstName').value
         const lastName = document.getElementById('lastName').value
         const email = document.getElementById('email').value
         const phonenumber = document.getElementById('phonenumber').value
         const password = document.getElementById('password').value
+
 
         if (!firstName || !lastName || !email || !phonenumber || !selectedRole || !password) {
             alert("Udfyld venligst alle felter")
