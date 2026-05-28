@@ -51,17 +51,19 @@ export async function allUsers(){
     `, users)
     document.getElementById('create-user-btn').addEventListener('click', createUser)
     document.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async() => {
+            const confirmed = confirm("Er du sikker på du vil slette brugeren? Handlingen kan ikke fortrydes.")
+            if (!confirmed) return
             const userId = button.getAttribute('data-id');
-            deleteUser(userId)
-            allUsers()
+            await deleteUser(userId)
+            await allUsers()
         });
 
     });
     document.querySelectorAll('.update-btn').forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async() => {
             const userId = button.getAttribute('data-id');
-            editUser(userId)
+            await editUser(userId)
         })
     })
 }
