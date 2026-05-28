@@ -117,3 +117,22 @@ export async function deleteUser(userId) {
         method: "DELETE",
     });
 }
+
+export async function getPrefilledUserForEditForm(id){
+    const response = await fetch(`${BACKEND_URL}/getUser/${id}`)
+    return response.json()
+}
+
+export async function updateUser(id, firstName, lastName, email, phonenumber, password, companyName = null, companyAddress = null){
+    const requestBody = {firstName, lastName, email, phonenumber, password}
+
+    if(companyName) requestBody.companyName = companyName
+    if(companyAddress) requestBody.companyAddress = companyAddress
+
+    const response = await fetch(`${BACKEND_URL}/updateUser/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    })
+    return response.ok
+}
