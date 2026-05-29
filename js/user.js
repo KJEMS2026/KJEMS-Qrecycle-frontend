@@ -1,7 +1,7 @@
 import { renderAdminLayout } from "./admin-sidebar.js";
 import { getAllUsers, saveUser, deleteUser, getPrefilledUserForEditForm, updateUser } from "./api.js";
 
-export async function allUsers(){
+export async function allUsers() {
     let users = await getAllUsers();
     const roleMap = {
         ADMIN: "Admin",
@@ -68,7 +68,7 @@ export async function allUsers(){
     })
 }
 
-async function createUser(){
+async function createUser() {
     let selectedRole = null;
 
     document.querySelector('.content').innerHTML = `
@@ -82,11 +82,13 @@ async function createUser(){
                 <label for="lastName">Efternavn</label>
                 <input type="text" id="lastName">
                 <label for="email">E-mail</label>
-                <input type="text" id="email">
+                <input type="email" id="email">
                 <label for="phonenumber">Telefonnummer</label>
                 <input type="text" id="phonenumber">
                 <label for="password">Adgangskode</label>
-                <input type="text" id="password">
+                <input type="password" id="password"
+                    pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).+"
+                    title="Koden skal indeholde mindst ét stort bogstav, ét tal og ét specialtegn">
                 
             </div>
             <div class="expense-form-field">
@@ -112,21 +114,34 @@ async function createUser(){
         </form>
     </div>
     `;
+
+    const passwordInput = document.getElementById('password');
+
+
+    //Uberørt(udover snippet)
     document.querySelectorAll('.role-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'))
             btn.classList.add('active')
             selectedRole = btn.dataset.role
+
             const companyFields = document.getElementById('company-fields')
             companyFields.classList.toggle('hidden', selectedRole !== 'COMPANY')
         })
     })
+
     document.getElementById('btn-submit').addEventListener('click', async () => {
+
+        const emailInput = document.getElementById('email');
+        if (!emailInput.reportValidity()) return;
+        if (selectedRole === 'ADMIN' && !passwordInput.reportValidity()) return;
+
         const firstName = document.getElementById('firstName').value
         const lastName = document.getElementById('lastName').value
-        const email = document.getElementById('email').value
+        const email = emailInput.value
         const phonenumber = document.getElementById('phonenumber').value
         const password = document.getElementById('password').value
+
 
         if (!firstName || !lastName || !email || !phonenumber || !selectedRole || !password) {
             alert("Udfyld venligst alle felter")
@@ -168,11 +183,12 @@ async function editUser(id){
                 <label for="lastName">Efternavn</label>
                 <input type="text" id="lastName" value="${user.lastName}">
                 <label for="email">E-mail</label>
-                <input type="text" id="email" value="${user.email}">
+                <input type="email" id="email" value="${user.email}">
                 <label for="phonenumber">Telefonnummer</label>
                 <input type="text" id="phonenumber" value="${user.phonenumber}">
                 <label for="password">Ny adgangskode</label>
-                <input type="text" id="password" placeholder="Lad være tom for at beholde nuværende">
+                <input type="password" id="password" placeholder="Lad være tom for at beholde nuværende"
+                    ${user.role === 'ADMIN' ? `pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).+" title="Koden skal indeholde mindst ét stort bogstav, ét tal og ét specialtegn"` : ''}>
             </div>
 
             ${user.role === 'COMPANY' ? `
@@ -194,9 +210,14 @@ async function editUser(id){
     document.getElementById('btn-submit').addEventListener('click', async () => {
         const firstName = document.getElementById('firstName').value
         const lastName = document.getElementById('lastName').value
-        const email = document.getElementById('email').value
         const phonenumber = document.getElementById('phonenumber').value
-        const password = document.getElementById('password').value
+        const emailInput = document.getElementById('email');
+        if (!emailInput.reportValidity()) return;
+        const email = emailInput.value
+        const passwordInput = document.getElementById('password');
+        const password = passwordInput.value
+
+        if (user.role === 'ADMIN' && password && !passwordInput.reportValidity()) return;
 
         if (!firstName || !lastName || !email || !phonenumber) {
             alert("Udfyld venligst alle felter")
