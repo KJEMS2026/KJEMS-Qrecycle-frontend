@@ -88,7 +88,7 @@ async function createUser() {
                 <label for="password">Adgangskode</label>
                 <input type="password" id="password">
                 <ul class="password-requirements hidden" id="password-requirements">
-                    <li id="req-upper"> x Mindst ét stort bogstav fister løgsovs </li>
+                    <li id="req-upper"> x Mindst ét stort bogstav. </li>
                     <li id="req-number"> x Mindst ét tal </li>
                     <li id="req-special"> x Mindst ét specialtegn (!@$%&*&) </li>
                 </ul>
