@@ -13,9 +13,9 @@ export const routeApi = {
             body: JSON.stringify({
                 origin: { location: { latLng: { latitude: origin.lat, longitude: origin.lng } } },
                 destination: { address: stops[stops.length - 1].address },
-                intermediates: intermediates.map(s => ({ address: s.address })),
+                intermediates: intermediates.map(stop => ({ address: stop.address })),
                 travelMode: 'DRIVE',
-                ...(intermediates.length > 1 && { optimizeWaypointOrder: true }),
+                ...(intermediates.length > 1 && !stops[0]?.isExtra && { optimizeWaypointOrder: true }),
                 languageCode: 'da'
             })
         })

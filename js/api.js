@@ -51,9 +51,9 @@ export async function fetchRouteStops() {
     return response.json()
 }
 
-export async function postRegisterPickup(driverId, pickupRequestId, bagsCollected) {
+export async function updatePickupRequest(driverId, pickupRequestId, bagsCollected) {
     const response = await fetch(`${BACKEND_URL}/update-pickuprequest/${driverId}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             pickupRequestId,
@@ -77,4 +77,62 @@ export async function saveExpense(driverId, title, description, imageUrl){
     body: JSON.stringify({ image : imageUrl, title, description })
 })
     return response.ok;
+}
+
+export async function getCompaniesAndCompanyUsers() {
+    const response = await fetch(`${BACKEND_URL}/companies-users`)
+
+    return response.json();
+}
+
+export async function deleteActivePickupRequest(activePickupRequestId) {
+    const response = await fetch(`${BACKEND_URL}/delete/active-pickup-request/${activePickupRequestId}`,{
+        method: 'DELETE'
+    })
+    return response.ok;
+}
+
+export async function getAllUsers(){
+    const response = await fetch(`${BACKEND_URL}/users`)
+
+    return response.json();
+}
+
+export async function saveUser(firstName, lastName, email, phonenumber, role, password, companyName = null, companyAddress = null){
+
+    const requestBody = {firstName, lastName, email, phonenumber, role, password, companyName, companyAddress}
+
+    if(companyName) requestBody.companyName = companyName
+    if (companyAddress) requestBody.companyAddress = companyAddress
+
+    const response = await fetch(`${BACKEND_URL}/saveUser`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    })
+    return response.ok;
+}
+export async function deleteUser(userId) {
+    const response = await fetch(`${BACKEND_URL}/users/delete/${userId}`, {
+        method: "DELETE",
+    });
+}
+
+export async function getPrefilledUserForEditForm(id){
+    const response = await fetch(`${BACKEND_URL}/getUser/${id}`)
+    return response.json()
+}
+
+export async function updateUser(id, firstName, lastName, email, phonenumber, password, companyName = null, companyAddress = null){
+    const requestBody = {firstName, lastName, email, phonenumber, password}
+
+    if(companyName) requestBody.companyName = companyName
+    if(companyAddress) requestBody.companyAddress = companyAddress
+
+    const response = await fetch(`${BACKEND_URL}/updateUser/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    })
+    return response.ok
 }

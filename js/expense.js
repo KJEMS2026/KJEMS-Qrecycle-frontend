@@ -57,7 +57,7 @@ export async function expenseForm(){
     <label class="expense-file-label" for="expense-image">
         Tilføj billede af kvittering
     </label>
-    <input type="file" id="expense-image" accept="image/*" capture="environment" required>
+    <input type="file" id="expense-image" accept="image/*" required>
     <span class="expense-file-name" id="expense-file-name"></span>
 </div>
         <div class="expense-form-actions">
@@ -71,6 +71,12 @@ export async function expenseForm(){
         const title = document.getElementById('expense-title').value
         const description = document.getElementById('expense-description').value
         const image = document.getElementById('expense-image').files[0]
+
+        if (!title || !description || !image){
+            alert("Udfyld venligst alle felter")
+            return
+        }
+
         const driverId = await getSessionUserId()
         const wasAccepted = await registerExpense(driverId, title, description, image)
         if (wasAccepted) {
@@ -86,17 +92,16 @@ export async function expenseForm(){
 
 async function registerExpense(driverId, title, description, image){
 
-    const fileName = `${driverId}-${Date.now()}`
     const { data, error } = await supabase.storage
         .from('images')
-        .upload(fileName, image);
+        .upload(title, image);
 
     if (error) throw error;
 
     // 2. Hent den offentlige URL
     const { data: { publicUrl } } = supabase.storage
         .from('images')
-        .getPublicUrl(fileName);
+        .getPublicUrl(title);
 
     return await saveExpense(driverId, title, description, publicUrl)
 }
