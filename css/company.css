@@ -1,0 +1,198 @@
+/* ============================================================
+   COMPANY.CSS — Virksomhedens afhentningsanmodning-side og brugerroller
+   Afhænger af: main.css (variabler, reset)
+   ============================================================ */
+
+/* ── App-header (company-sider) ── */
+.app-header {
+    background: var(--dark);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.app-logo {
+    height: 32px;
+}
+
+.btn-back {
+    background: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    color: var(--white);
+    border-radius: var(--radius);
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-logout-company {
+    background-color: #FACC15;
+    color: black;
+    border: 1px solid #555;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* ── Indhold ── */
+.app-main {
+    background: var(--white);
+    min-height: calc(100vh - 60px);
+    padding: 28px 20px 100px;
+}
+
+.form-subtitle {
+    margin-bottom: 24px;
+}
+
+/* ── Antal-input med tæller ── */
+.number-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 6px;
+}
+
+.number-input input {
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text);
+    width: 80px;
+    background: transparent;
+}
+
+.number-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-counter {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+.counter-divider {
+    color: var(--border);
+    font-size: 18px;
+}
+
+/* ── Primær knap (company-variant — fuld bredde, scoped) ── */
+.app-main .btn-primary {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 24px;
+    align-self: unset;
+    white-space: normal;
+    transition: opacity 0.15s;
+}
+
+.app-main .btn-primary:hover {
+    opacity: 0.88;
+    background-color: var(--dark);
+}
+
+.btn-link {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 16px;
+    text-align: center;
+}
+
+/* ── Fastgjort bund-bar ── */
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 20px;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+}
+
+.btn-bottom {
+    width: 100%;
+    padding: 16px;
+    background: var(--dark);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.btn-bottom:hover {
+    opacity: 0.88;
+}
+
+.feedback {
+    color: var(--error-text);
+    font-size: 13px;
+    margin-top: 12px;
+    text-align: center;
+}
+
+/* ── Pickup-formular ── */
+.pickup-request-form-container {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    width: 480px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    margin: 60px auto;
+}
+
+.pickup-request-form-container h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 28px;
+}
+
+/* ── Rollevælger ── */
+.role-selector {
+    display: flex;
+    gap: 10px;
+}
+
+.role-btn {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+}
+
+.role-btn.active {
+    background: #1a1a1a;
+    color: white;
+    border-color: #1a1a1a;
+}

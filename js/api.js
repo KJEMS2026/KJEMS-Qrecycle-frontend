@@ -1,0 +1,138 @@
+import {getSessionUserId} from "./auth.js";
+
+const BACKEND_URL = 'http://localhost:8080'
+
+export async function sendPickupRequest(userId, bagCount) {
+    const response = await fetch(`${BACKEND_URL}/pickup-requests/company`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, bagsToBeCollected: bagCount })
+    })
+    return response.ok
+}
+
+export async function sendPickupRequestAdmin(companyId, bagCount) {
+    const response = await fetch(`${BACKEND_URL}/pickup-requests/admin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyId, bagsToBeCollected: bagCount })
+    })
+    return response.ok
+}
+
+export async function getActivePickupRequests() {
+    const response = await fetch(`${BACKEND_URL}/active-pickup-requests`);
+
+    return response.json();
+}
+
+export async function getActivePickupRequestsCompany() {
+    const userId = await getSessionUserId();
+    const response = await fetch(`${BACKEND_URL}/active-pickup-requests-company/${userId}`);
+
+    return response.json();
+}
+
+export async function getStatisticList() {
+    const response = await fetch(`${BACKEND_URL}/stats`)
+
+    return response.json();
+}
+
+export async function getCompanies() {
+    const response = await fetch(`${BACKEND_URL}/companies`);
+
+    return response.json();
+}
+
+export async function fetchRouteStops() {
+    const response = await fetch(`${BACKEND_URL}/driver/route`)
+    if (!response.ok) throw new Error('Kunne ikke hente rute')
+    return response.json()
+}
+
+export async function updatePickupRequest(driverId, pickupRequestId, bagsCollected) {
+    const response = await fetch(`${BACKEND_URL}/update-pickuprequest/${driverId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            pickupRequestId,
+            bagsCollected,
+            dateCollected: new Date().toISOString()
+        })
+    })
+    if (!response.ok) throw new Error('Kunne ikke registrere afhentning')
+}
+
+export async function getExpenses(){
+    const response = await fetch(`${BACKEND_URL}/expenses`)
+
+    return response.json();
+}
+
+export async function saveExpense(driverId, title, description, imageUrl){
+    const response = await fetch(`${BACKEND_URL}/create/expense/${driverId}`,{
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ image : imageUrl, title, description })
+})
+    return response.ok;
+}
+
+export async function getCompaniesAndCompanyUsers() {
+    const response = await fetch(`${BACKEND_URL}/companies-users`)
+
+    return response.json();
+}
+
+export async function deleteActivePickupRequest(activePickupRequestId) {
+    const response = await fetch(`${BACKEND_URL}/delete/active-pickup-request/${activePickupRequestId}`,{
+        method: 'DELETE'
+    })
+    return response.ok;
+}
+
+export async function getAllUsers(){
+    const response = await fetch(`${BACKEND_URL}/users`)
+
+    return response.json();
+}
+
+export async function saveUser(firstName, lastName, email, phonenumber, role, password, companyName = null, companyAddress = null){
+
+    const requestBody = {firstName, lastName, email, phonenumber, role, password, companyName, companyAddress}
+
+    if(companyName) requestBody.companyName = companyName
+    if (companyAddress) requestBody.companyAddress = companyAddress
+
+    const response = await fetch(`${BACKEND_URL}/saveUser`,{
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    })
+    return response.ok;
+}
+export async function deleteUser(userId) {
+    const response = await fetch(`${BACKEND_URL}/users/delete/${userId}`, {
+        method: "DELETE",
+    });
+}
+
+export async function getPrefilledUserForEditForm(id){
+    const response = await fetch(`${BACKEND_URL}/getUser/${id}`)
+    return response.json()
+}
+
+export async function updateUser(id, firstName, lastName, email, phonenumber, password, companyName = null, companyAddress = null){
+    const requestBody = {firstName, lastName, email, phonenumber, password}
+
+    if(companyName) requestBody.companyName = companyName
+    if(companyAddress) requestBody.companyAddress = companyAddress
+
+    const response = await fetch(`${BACKEND_URL}/updateUser/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+    })
+    return response.ok
+}
